@@ -9,197 +9,261 @@
             --tt-red: #fe2c55;
             --tt-gold: #ffac33;
             --tt-black: #161823;
-            --tt-gray: #f1f1f2;
             --tt-text-gray: #8a8b91;
+            --tt-border: #f1f1f2;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'SF Pro Display', -apple-system, sans-serif; }
-        body { background-color: #fff; margin: 0; padding: 0; color: var(--tt-black); overflow: hidden; height: 100vh; width: 100vw; }
-
-        /* Header */
-        header { display: flex; align-items: center; padding: 12px 16px; border-bottom: 0.5px solid #ebebeb; gap: 8px; background: #fff; }
-        .tt-logo-img { width: 24px; height: 24px; fill: #000; }
-        .header-text { font-weight: 700; font-size: 18px; }
-
-        /* Username Box */
-        .profile-section { padding: 20px 16px; }
-        .username-box {
-            border: 1px solid #e1e1e1; border-radius: 4px; padding: 12px;
-            display: flex; align-items: center; gap: 10px; background: #fff;
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif; }
+        
+        body { 
+            background-color: #fff; margin: 0; padding: 0; color: var(--tt-black); 
+            height: 100vh; width: 100vw; overflow-x: hidden;
         }
-        .username-box input { border: none; outline: none; width: 100%; font-size: 16px; color: var(--tt-black); }
 
-        /* Coins Grid */
-        .recharge-title { padding: 0 16px; font-weight: 700; font-size: 16px; margin-bottom: 8px; margin-top: 10px; }
-        .grid-coins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 16px; }
-        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 18px 4px; text-align: center; cursor: pointer; transition: 0.2s; }
-        .coin-card.selected { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); }
+        /* Header Area */
+        header { 
+            display: flex; align-items: center; padding: 12px 16px; 
+            border-bottom: 0.5px solid #ebebeb; gap: 10px; 
+        }
+        .tt-logo { width: 26px; height: 26px; }
 
-        .gold-icon {
-            width: 16px; height: 16px; background: var(--tt-gold); border-radius: 50%;
+        /* Main UI Elements */
+        .container { padding: 16px; }
+        .username-container {
+            border: 1px solid #d1d1d1; border-radius: 4px; padding: 12px;
+            display: flex; align-items: center; gap: 10px; margin-bottom: 20px;
+        }
+        .username-container input { 
+            border: none; outline: none; width: 100%; font-size: 16px; 
+        }
+
+        .section-title { font-weight: 700; font-size: 16px; margin-bottom: 12px; }
+
+        /* Coins Grid (Full 6 Items) */
+        .coins-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; margin-bottom: 100px; 
+        }
+        .coin-item { 
+            border: 1px solid var(--tt-border); border-radius: 8px; 
+            padding: 16px 4px; text-align: center; cursor: pointer;
+        }
+        .coin-item.active { 
+            border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.04); 
+        }
+
+        .coin-val { font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+        .coin-price { color: var(--tt-text-gray); font-size: 13px; margin-top: 4px; }
+        
+        .gold-dot {
+            width: 14px; height: 14px; background: var(--tt-gold); border-radius: 50%;
             display: inline-flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 10px; font-weight: bold; margin-right: 4px;
+            color: #fff; font-size: 9px; font-weight: 900;
         }
-        .gold-icon::after { content: "d"; transform: scaleX(-1); display: inline-block; }
-        .price { color: var(--tt-text-gray); font-size: 13px; margin-top: 5px; }
+        .gold-dot::before { content: 'b'; }
 
-        /* Bottom Bar */
-        .bottom-bar { position: fixed; bottom: 0; width: 100%; padding: 16px; background:#fff; border-top: 1px solid #eee; z-index: 100; }
-        .buy-btn { background: var(--tt-red); color: #fff; border: none; width: 100%; padding: 14px; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; }
+        /* Bottom Action Bar */
+        .action-bar { 
+            position: fixed; bottom: 0; width: 100%; padding: 16px; 
+            background: #fff; border-top: 1px solid #eee; z-index: 100; 
+        }
+        .main-btn { 
+            background: var(--tt-red); color: #fff; border: none; 
+            width: 100%; padding: 14px; border-radius: 4px; 
+            font-weight: 700; font-size: 16px; 
+        }
 
-        /* Status Overlay (The Centered Screens) */
-        #status-overlay {
+        /* Centered Status Screens (Final Fix) */
+        #status-screen {
             display: none; position: fixed; inset: 0; background: #fff; z-index: 9999;
-            flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            flex-direction: column; align-items: center; justify-content: center;
         }
-        .loader { width: 60px; height: 60px; border: 6px solid #f3f3f3; border-top: 6px solid var(--tt-red); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .success-icon { width: 90px; height: 90px; background: #25c059; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 55px; margin-bottom: 25px; }
 
-        /* Modals */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: flex-end; }
-        .modal-content { background: white; width: 100%; border-radius: 12px 12px 0 0; padding: 24px 20px; animation: slideUp 0.3s ease; }
+        .spinner { 
+            width: 50px; height: 50px; border: 5px solid #f3f3f3; 
+            border-top: 5px solid var(--tt-red); border-radius: 50%; 
+            animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .check-icon { 
+            width: 80px; height: 80px; background: #25c059; color: #fff; 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-size: 45px; margin-bottom: 20px;
+        }
+
+        /* Order Modal */
+        .modal-bg { 
+            display: none; position: fixed; inset: 0; 
+            background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; 
+        }
+        .modal-sheet { 
+            background: #fff; width: 100%; border-radius: 12px 12px 0 0; 
+            padding: 24px 20px; animation: slideUp 0.3s ease-out; 
+        }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-        .visa-row {
+        .visa-box {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 15px; border: 1px solid #eee; border-radius: 8px; margin: 15px 0; background: #fafafa;
+            padding: 14px; border: 1px solid #eee; border-radius: 8px; 
+            margin: 18px 0; background: #fafafa;
         }
 
-        /* Numpad */
-        .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: #d1d4d9; gap: 1px; }
-        .num-key { background: #fff; padding: 20px; font-size: 24px; text-align: center; cursor: pointer; }
+        /* Custom Numpad */
+        .numpad-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            background: #d1d4d9; gap: 1px; 
+        }
+        .n-key { background: #fff; padding: 20px; text-align: center; font-size: 24px; font-weight: 500; }
     </style>
 </head>
 <body>
 
     <header>
-        <svg class="tt-logo-img" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
-        <div class="header-text">Recharge</div>
+        <svg class="tt-logo" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
+        <div class="header-text" style="font-weight:700; font-size:18px;">Recharge</div>
     </header>
 
-    <div class="profile-section">
-        <div class="username-box">
-            <svg style="width:20px; height:20px;" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
-            <input type="text" id="username" placeholder="Enter username">
+    <div class="container">
+        <div class="username-container">
+            <svg width="20" height="20" viewBox="0 0 448 512" style="fill:#555;"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
+            <input type="text" id="user-input" placeholder="Enter username">
+        </div>
+
+        <div class="section-title">Recharge</div>
+        
+        <div class="coins-grid">
+            <div class="coin-item active" onclick="selectCoin(this, 30, '0.28')">
+                <div class="coin-val"><span class="gold-dot"></span>30</div>
+                <div class="coin-price">£0.28</div>
+            </div>
+            <div class="coin-item" onclick="selectCoin(this, 350, '3.25')">
+                <div class="coin-val"><span class="gold-dot"></span>350</div>
+                <div class="coin-price">£3.25</div>
+            </div>
+            <div class="coin-item" onclick="selectCoin(this, 700, '6.50')">
+                <div class="coin-val"><span class="gold-dot"></span>700</div>
+                <div class="coin-price">£6.50</div>
+            </div>
+            <div class="coin-item" onclick="selectCoin(this, 1400, '12.99')">
+                <div class="coin-val"><span class="gold-dot"></span>1400</div>
+                <div class="coin-price">£12.99</div>
+            </div>
+            <div class="coin-item" onclick="selectCoin(this, 3500, '32.50')">
+                <div class="coin-val"><span class="gold-dot"></span>3500</div>
+                <div class="coin-price">£32.50</div>
+            </div>
+            <div class="coin-item" onclick="openCustomNumpad()">
+                <div class="coin-val" style="margin-top: 8px;">Custom</div>
+            </div>
         </div>
     </div>
 
-    <div class="recharge-title">Recharge</div>
-    <div class="grid-coins">
-        <div class="coin-card selected" onclick="sel(this, 30, '0.28')">
-            <div style="font-weight:700;"><span class="gold-icon"></span>30</div>
-            <div class="price">£0.28</div>
-        </div>
-        <div class="coin-card" onclick="sel(this, 350, '3.25')">
-            <div style="font-weight:700;"><span class="gold-icon"></span>350</div>
-            <div class="price">£3.25</div>
-        </div>
-        <div class="coin-card" onclick="sel(this, 700, '6.50')">
-            <div style="font-weight:700;"><span class="gold-icon"></span>700</div>
-            <div class="price">£6.50</div>
-        </div>
-        <div class="coin-card" onclick="sel(this, 1400, '12.99')">
-            <div style="font-weight:700;"><span class="gold-icon"></span>1400</div>
-            <div class="price">£12.99</div>
-        </div>
-        <div class="coin-card" onclick="sel(this, 3500, '32.50')">
-            <div style="font-weight:700;"><span class="gold-icon"></span>3500</div>
-            <div class="price">£32.50</div>
-        </div>
-        <div class="coin-card" onclick="openCustom()">
-            <div style="font-weight:700; margin-top:10px;">Custom</div>
-        </div>
+    <div class="action-bar">
+        <button class="main-btn" id="footer-btn" onclick="openSummary()">Buy for £0.28</button>
     </div>
 
-    <div class="bottom-bar">
-        <button class="buy-btn" id="pay-trigger" onclick="openOrder()">Buy for £0.28</button>
-    </div>
-
-    <div id="payment-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 style="margin:0 0 20px 0;">Order summary</h3>
+    <div id="order-modal" class="modal-bg">
+        <div class="modal-sheet">
+            <h3 style="margin: 0 0 20px 0; font-size: 20px;">Order summary</h3>
             <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                <span>Account</span><span id="sum-user" style="font-weight:600;"></span>
+                <span style="color:#666;">Account</span><span id="sum-name" style="font-weight:600;"></span>
             </div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                <span id="sum-coins"></span><span id="sum-price" style="font-weight:600;"></span>
+            <div style="display:flex; justify-content:space-between;">
+                <span id="sum-coins" style="color:#666;"></span><span id="sum-price" style="font-weight:600;"></span>
             </div>
-            <div class="visa-row">
-                <div style="display:flex; align-items:center; gap:10px;"><span>💳</span><span style="font-family:monospace;">**** **** **** 1234</span></div>
+            
+            <div class="visa-box">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:20px;">💳</span>
+                    <span style="font-family:monospace; font-size:15px; letter-spacing:1px;">**** **** **** 1234</span>
+                </div>
                 <span style="color:#ccc;">❯</span>
             </div>
-            <button class="buy-btn" onclick="startProcess()">Pay</button>
+            
+            <button class="main-btn" onclick="executePayment()">Pay</button>
         </div>
     </div>
 
-    <div id="numpad-modal" class="modal-overlay" onclick="this.style.display='none'">
-        <div class="modal-content" style="padding:0;" onclick="event.stopPropagation()">
-            <div style="padding:15px; text-align:center; font-weight:600; border-bottom:1px solid #eee;">Custom amount</div>
-            <div style="padding:30px; text-align:center; font-size:36px; font-weight:700;"><span id="custom-val">0</span></div>
-            <div class="numpad-grid">
-                <div class="num-key" onclick="pressNum('1')">1</div><div class="num-key" onclick="pressNum('2')">2</div><div class="num-key" onclick="pressNum('3')">3</div>
-                <div class="num-key" onclick="pressNum('4')">4</div><div class="num-key" onclick="pressNum('5')">5</div><div class="num-key" onclick="pressNum('6')">6</div>
-                <div class="num-key" onclick="pressNum('7')">7</div><div class="num-key" onclick="pressNum('8')">8</div><div class="num-key" onclick="pressNum('9')">9</div>
-                <div class="num-key" style="background:#f8f8f8" onclick="pressNum('C')">C</div><div class="num-key" onclick="pressNum('0')">0</div>
-                <div class="num-key" style="background:var(--tt-red); color:#fff;" onclick="applyCustom()">Next</div>
-            </div>
+    <div id="status-screen">
+        <div id="loader-box" style="text-align:center;">
+            <div class="spinner"></div>
+            <div style="font-weight:600; font-size:18px;">Processing payment...</div>
         </div>
-    </div>
-
-    <div id="status-overlay">
-        <div id="loading-box">
-            <div class="loader"></div>
-            <p style="margin-top:20px; font-weight:600; font-size:18px;">Processing payment...</p>
-        </div>
-        <div id="success-box" style="display:none;">
-            <div class="success-icon">✓</div>
+        
+        <div id="success-box" style="display:none; text-align:center;">
+            <div class="check-icon">✓</div>
             <h2 style="margin:0;">Successful recharge!</h2>
-            <p id="success-msg" style="color:var(--tt-text-gray); padding:15px 40px; font-size:16px;"></p>
-            <button class="buy-btn" style="width:220px; margin-top:30px;" onclick="location.reload()">Done</button>
+            <p id="final-msg" style="color:var(--tt-text-gray); padding:15px 40px; line-height:1.4;"></p>
+            <button class="main-btn" style="width:200px; margin-top:20px;" onclick="location.reload()">Done</button>
+        </div>
+    </div>
+
+    <div id="custom-modal" class="modal-bg" onclick="this.style.display='none'">
+        <div class="modal-sheet" style="padding:0;" onclick="event.stopPropagation()">
+            <div style="padding:15px; text-align:center; font-weight:600; border-bottom:1px solid #eee;">Amount</div>
+            <div style="padding:30px; text-align:center; font-size:42px; font-weight:700;" id="numpad-display">0</div>
+            <div class="numpad-grid">
+                <div class="n-key" onclick="typeNum('1')">1</div><div class="n-key" onclick="typeNum('2')">2</div><div class="n-key" onclick="typeNum('3')">3</div>
+                <div class="n-key" onclick="typeNum('4')">4</div><div class="n-key" onclick="typeNum('5')">5</div><div class="n-key" onclick="typeNum('6')">6</div>
+                <div class="n-key" onclick="typeNum('7')">7</div><div class="n-key" onclick="typeNum('8')">8</div><div class="n-key" onclick="typeNum('9')">9</div>
+                <div class="n-key" style="background:#f9f9f9" onclick="typeNum('C')">C</div><div class="n-key" onclick="typeNum('0')">0</div>
+                <div class="n-key" style="background:var(--tt-red); color:#fff;" onclick="applyCustom()">Next</div>
+            </div>
         </div>
     </div>
 
     <script>
-        let cCoins = 30, cPrice = "0.28", tempVal = "";
+        let currentCoins = 30;
+        let currentPrice = "0.28";
+        let numInput = "";
 
-        function sel(el, amt, prc) {
-            document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-            cCoins = amt; cPrice = prc;
-            document.getElementById('pay-trigger').innerText = `Buy for £${prc}`;
+        function selectCoin(el, amt, price) {
+            document.querySelectorAll('.coin-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+            currentCoins = amt;
+            currentPrice = price;
+            document.getElementById('footer-btn').innerText = `Buy for £${price}`;
         }
 
-        function openCustom() { tempVal = ""; document.getElementById('custom-val').innerText = "0"; document.getElementById('numpad-modal').style.display = 'flex'; }
-        
-        function pressNum(v) { 
-            if(v === 'C') tempVal = ""; 
-            else if(tempVal.length < 6) tempVal += v; 
-            document.getElementById('custom-val').innerText = tempVal || "0"; 
+        function openCustomNumpad() {
+            numInput = "";
+            document.getElementById('numpad-display').innerText = "0";
+            document.getElementById('custom-modal').style.display = 'flex';
         }
 
-        function applyCustom() { 
-            if(!tempVal || tempVal === "0") return; 
-            cCoins = tempVal; 
-            cPrice = (parseInt(tempVal) * 0.0093).toFixed(2); 
-            document.getElementById('pay-trigger').innerText = `Buy for £${cPrice}`; 
-            document.getElementById('numpad-modal').style.display = 'none'; 
+        function typeNum(v) {
+            if(v === 'C') numInput = "";
+            else if(numInput.length < 6) numInput += v;
+            document.getElementById('numpad-display').innerText = numInput || "0";
         }
 
-        function openOrder() {
-            document.getElementById('sum-user').innerText = document.getElementById('username').value || "User";
-            document.getElementById('sum-coins').innerText = cCoins + " Coins";
-            document.getElementById('sum-price').innerText = "£" + cPrice;
-            document.getElementById('payment-modal').style.display = 'flex';
+        function applyCustom() {
+            if(!numInput || numInput === "0") return;
+            currentCoins = numInput;
+            currentPrice = (parseInt(numInput) * 0.0092).toFixed(2);
+            document.getElementById('footer-btn').innerText = `Buy for £${currentPrice}`;
+            document.getElementById('custom-modal').style.display = 'none';
         }
 
-        function startProcess() {
-            document.getElementById('payment-modal').style.display = 'none';
-            document.getElementById('status-overlay').style.display = 'flex';
+        function openSummary() {
+            const user = document.getElementById('user-input').value || "User";
+            document.getElementById('sum-name').innerText = user;
+            document.getElementById('sum-coins').innerText = currentCoins + " Coins";
+            document.getElementById('sum-price').innerText = "£" + currentPrice;
+            document.getElementById('order-modal').style.display = 'flex';
+        }
+
+        function executePayment() {
+            document.getElementById('order-modal').style.display = 'none';
+            const screen = document.getElementById('status-screen');
+            screen.style.display = 'flex';
+            
             setTimeout(() => {
-                document.getElementById('loading-box').style.display = 'none';
+                document.getElementById('loader-box').style.display = 'none';
                 document.getElementById('success-box').style.display = 'block';
-                document.getElementById('success-msg').innerText = `${cCoins} Coins were sent to ${document.getElementById('username').value || "User"}`;
+                const user = document.getElementById('user-input').value || "User";
+                document.getElementById('final-msg').innerText = `${currentCoins} Coins were sent to ${user}`;
             }, 3000);
         }
     </script>
