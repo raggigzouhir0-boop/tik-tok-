@@ -7,220 +7,271 @@
     <style>
         :root {
             --tt-red: #fe2c55;
+            --tt-gold: #ffac33;
             --tt-black: #161823;
             --tt-text-gray: #8a8b91;
-            --tt-blue: #007bff;
-            --border-light: #ebebeb;
+            --tt-border: #f1f1f2;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'SF Pro Display', sans-serif; }
-        body { background-color: #fff; margin: 0; padding: 0; color: var(--tt-black); }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif; }
+        
+        body { background-color: #fcfcfc; margin: 0; padding: 0; color: var(--tt-black); overflow-x: hidden; height: 100vh; width: 100vw; }
 
-        /* Header */
-        header { display: flex; align-items: center; padding: 12px 16px; border-bottom: 0.5px solid var(--border-light); gap: 10px; }
-        .tt-logo { width: 24px; height: 24px; }
+        /* --- شريط العنوان العلوي (Header) المحدث برمز تيك توك --- */
+        header { 
+            display: flex; align-items: center; padding: 12px 16px; 
+            border-bottom: 0.5px solid #ebebeb; gap: 10px; background: #fff;
+        }
+        /* رمز تيك توك الأصلي والأسود */
+        .tt-logo-header { width: 26px; height: 26px; fill: #000; }
+        .header-text { font-weight: 700; font-size: 18px; }
 
-        /* Main Content */
-        .container { padding: 16px; max-width: 500px; margin: auto; }
+        /* Container */
+        .container { padding: 16px; margin-bottom: 120px; }
 
-        .input-group { border: 1px solid #f1f1f2; border-radius: 4px; padding: 12px; display: flex; align-items: center; gap: 10px; background: #f8f8f8; margin-bottom: 24px; }
-        .input-group input { border: none; background: transparent; outline: none; width: 100%; font-size: 16px; }
+        /* Username Box */
+        .username-container {
+            border: 1px solid #d1d1d1; border-radius: 4px; padding: 12px;
+            display: flex; align-items: center; gap: 10px; background: #fff;
+            margin-bottom: 24px;
+        }
+        .username-container input { border: none; outline: none; width: 100%; font-size: 16px; color: var(--tt-black); }
 
-        .section-title { font-weight: 700; font-size: 16px; margin-bottom: 16px; }
+        /* Recharge Section */
+        .section-title { font-weight: 700; font-size: 16px; margin-bottom: 12px; }
+        .coins-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; margin-bottom: 24px; 
+        }
+        .coin-item { 
+            border: 1px solid var(--tt-border); border-radius: 8px; 
+            padding: 16px 4px; text-align: center; cursor: pointer; transition: 0.2s;
+            background: #fff;
+        }
+        .coin-item.active { 
+            border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.04); 
+        }
+        .coin-val { font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+        .coin-price { color: var(--tt-text-gray); font-size: 13px; margin-top: 4px; }
+        .gold-dot {
+            width: 14px; height: 14px; background: var(--tt-gold); border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 9px; font-weight: 900;
+        }
+        .gold-dot::before { content: 'b'; }
 
-        /* Coins Grid */
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-        .card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 15px 5px; text-align: center; cursor: pointer; position: relative; }
-        .card.selected { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.04); }
-        .coin-val { font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center; gap: 4px; }
-        .coin-icon { color: #ffac33; font-size: 14px; }
-        .price { color: var(--tt-text-gray); font-size: 13px; margin-top: 4px; }
-
-        /* Promo Items */
-        .promo-box { border: 1px solid #f1f1f2; border-radius: 8px; padding: 14px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-        .promo-info { display: flex; align-items: center; gap: 12px; }
-        .promo-text h4 { margin: 0; font-size: 15px; font-weight: 600; }
-        .promo-text p { margin: 2px 0 0; font-size: 12px; color: var(--tt-text-gray); }
+        /* Promo items */
+        .promo-box {
+            border: 1px solid var(--tt-border); border-radius: 8px; padding: 14px;
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 12px; background: #fff; cursor: pointer;
+        }
+        .promo-left { display: flex; align-items: center; gap: 12px; }
+        .promo-text-main { font-weight: 600; font-size: 15px; color: #000; }
+        .promo-text-sub { color: var(--tt-text-gray); font-size: 13px; margin-top: 2px; }
+        .promo-arrow { color: #ccc; font-size: 16px; }
 
         /* Special Offer */
-        .special-offer { display: flex; justify-content: space-between; align-items: center; margin: 20px 0 100px; font-size: 14px; }
-        .cashback { color: var(--tt-red); font-weight: 600; }
-
-        /* --- Payment Icons Bar (المطلوب بدقة) --- */
-        .payment-icons-row { 
-            position: fixed; bottom: 80px; width: 100%; left: 0;
-            display: flex; justify-content: center; align-items: center; gap: 8px; 
-            padding-bottom: 10px; background: #fff;
+        .special-offer-box {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 14px; margin-top: 20px;
         }
-        .payment-icons-row img { height: 18px; object-fit: contain; filter: grayscale(0.2); opacity: 0.9; }
+        .cashback-text { color: var(--tt-red); font-weight: 600; cursor: pointer; }
+
+        /* --- شريط أيقونات الدفع الأصلية والمحدثة --- */
+        .payment-icons-bar {
+            display: flex; justify-content: center; gap: 10px; margin-top: 30px; 
+            margin-bottom: 10px; padding: 0 16px;
+        }
+        /* أيقونات حقيقية واضحة للفيزا والماستركارد والبايبال */
+        .payment-icons-bar img { height: 18px; object-fit: contain; }
 
         /* Bottom Action Bar */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; padding: 12px 16px 24px; background: #fff; border-top: 1px solid var(--border-light); z-index: 100; }
-        .btn-pay { 
-            background: var(--tt-red); color: #fff; border: none; width: 100%; padding: 14px; 
-            border-radius: 4px; font-weight: 700; font-size: 16px; display: flex; 
-            align-items: center; justify-content: center; gap: 8px; 
+        .action-bar { 
+            position: fixed; bottom: 0; width: 100%; padding: 16px 16px 24px; 
+            background: #fff; border-top: 1px solid #eee; z-index: 100; 
+        }
+        .main-btn { 
+            background: var(--tt-red); color: #fff; border: none; 
+            width: 100%; padding: 14px; border-radius: 4px; 
+            font-weight: 700; font-size: 16px; cursor: pointer;
         }
 
-        /* Order Summary Modal */
-        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: flex-end; }
-        .modal { background: #fff; width: 100%; border-radius: 12px 12px 0 0; padding: 20px; animation: slide 0.3s ease-out; }
-        @keyframes slide { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-        .secure-tag { color: #25c059; font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px; }
-        
-        /* Apple Pay Selection */
-        .pay-method { 
-            border: 1px solid #f1f1f2; border-radius: 8px; padding: 15px; 
-            display: flex; align-items: center; justify-content: space-between; margin: 15px 0;
+        /* Centered Status Screens */
+        #status-overlay {
+            display: none; position: fixed; inset: 0; background: #fff; z-index: 9999;
+            flex-direction: column; align-items: center; justify-content: center;
         }
-        .pay-method.active { border: 1.5px solid var(--tt-blue); }
-        .blue-dot { width: 18px; height: 18px; border: 2px solid var(--tt-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .blue-dot::after { content: ''; width: 10px; height: 10px; background: var(--tt-blue); border-radius: 50%; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--tt-red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px;}
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .check-icon { width: 80px; height: 80px; background: #25c059; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 45px; margin-bottom: 20px;}
 
+        /* Modals */
+        .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; }
+        .modal-sheet { background: #fff; width: 100%; border-radius: 12px 12px 0 0; padding: 24px 20px; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .visa-box { display: flex; align-items: center; justify-content: space-between; padding: 14px; border: 1px solid #eee; border-radius: 8px; margin: 18px 0; background: #fafafa; }
+
+        /* Numpad */
+        .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: #d1d4d9; gap: 1px; }
+        .n-key { background: #fff; padding: 20px; text-align: center; font-size: 24px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <header>
-        <img src="https://v1.nitrocdn.com/fHoAInRmvvDcpkXmRAsRzVqJtSgYIOnT/assets/static/optimized/rev-636c7a0/wp-content/uploads/2022/01/tiktok-logo-black-1.png" class="tt-logo" alt="logo">
-        <span class="section-title" style="margin:0">Recharge</span>
+        <svg class="tt-logo-header" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
+        <div class="header-text">Recharge</div>
     </header>
 
     <div class="container">
-        <div class="input-group">
-            <span>@</span>
+        <div class="username-container">
+            <svg width="20" height="20" viewBox="0 0 448 512" style="fill:#555;"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
             <input type="text" id="user-input" placeholder="Enter username">
         </div>
 
         <div class="section-title">Recharge</div>
-        <div class="grid">
-            <div class="card selected" onclick="selectCoin(this, 30, '0.28')">
-                <div class="coin-val"><span class="coin-icon">🪙</span>30</div>
-                <div class="price">£0.28</div>
+        
+        <div class="coins-grid">
+            <div class="coin-item active" onclick="selectCoin(this, 30, '0.28')">
+                <div class="coin-val"><span class="gold-dot"></span>30</div>
+                <div class="coin-price">£0.28</div>
             </div>
-            <div class="card" onclick="selectCoin(this, 350, '3.25')">
-                <div class="coin-val"><span class="coin-icon">🪙</span>350</div>
-                <div class="price">£3.25</div>
+            <div class="coin-item" onclick="selectCoin(this, 350, '3.25')">
+                <div class="coin-val"><span class="gold-dot"></span>350</div>
+                <div class="coin-price">£3.25</div>
             </div>
-            <div class="card" onclick="selectCoin(this, 700, '6.50')">
-                <div class="coin-val"><span class="coin-icon">🪙</span>700</div>
-                <div class="price">£6.50</div>
+            <div class="coin-item" onclick="selectCoin(this, 700, '6.50')">
+                <div class="coin-val"><span class="gold-dot"></span>700</div>
+                <div class="coin-price">£6.50</div>
             </div>
-            <div class="card" onclick="selectCoin(this, 1400, '12.99')">
-                <div class="coin-val"><span class="coin-icon">🪙</span>1400</div>
-                <div class="price">£12.99</div>
+            <div class="coin-item" onclick="selectCoin(this, 1400, '12.99')">
+                <div class="coin-val"><span class="gold-dot"></span>1400</div>
+                <div class="coin-price">£12.99</div>
             </div>
-            <div class="card" onclick="selectCoin(this, 3500, '32.50')">
-                <div class="coin-val"><span class="coin-icon">🪙</span>3500</div>
-                <div class="price">£32.50</div>
+            <div class="coin-item" onclick="selectCoin(this, 3500, '32.50')">
+                <div class="coin-val"><span class="gold-dot"></span>3500</div>
+                <div class="coin-price">£32.50</div>
             </div>
-            <div class="card">
-                <div class="coin-val" style="color:var(--tt-text-gray)">Custom</div>
+            <div class="coin-item" onclick="openCustomNumpad()">
+                <div class="coin-val" style="margin-top: 8px; color: var(--tt-text-gray);">Custom</div>
             </div>
         </div>
 
         <div class="promo-box">
-            <div class="promo-info">
-                <span>🤝</span>
+            <div class="promo-left">
+                <span style="font-size: 20px;">🤝</span>
                 <div class="promo-text">
-                    <h4>Invite & Get Rewards</h4>
-                    <p>Check out this new feature!</p>
+                    <div class="promo-text-main">Invite & Get Rewards</div>
+                    <div class="promo-text-sub">Check out this new feature!</div>
                 </div>
             </div>
-            <span style="color:#ccc">❯</span>
+            <div class="promo-arrow">❯</div>
         </div>
 
         <div class="promo-box">
-            <div class="promo-info">
-                <span>📲</span>
+            <div class="promo-left">
+                <span style="font-size: 20px;">📲</span>
                 <div class="promo-text">
-                    <h4>Add to mobile desktop</h4>
-                    <p>for easy access with just one click</p>
+                    <div class="promo-text-main">Add to mobile desktop</div>
+                    <div class="promo-text-sub">for easy access with just one click</div>
                 </div>
             </div>
-            <span style="color:#ccc">❯</span>
+            <div class="promo-arrow">❯</div>
         </div>
 
-        <div class="special-offer">
+        <div class="special-offer-box">
             <span style="color:var(--tt-text-gray)">Special offer</span>
-            <span class="cashback">Unlock 5% cash back ❯</span>
+            <span class="cashback-text">Unlock 5% cash back ❯</span>
+        </div>
+
+        <div class="payment-icons-bar">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/PayPal_logo_with_edition.svg" alt="PayPal">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg" alt="Amex">
         </div>
     </div>
 
-    <div class="payment-icons-row">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/PayPal_logo_with_edition.svg" alt="PayPal">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="Amex" style="height:14px">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="ApplePay" style="height:15px">
+    <div class="action-bar">
+        <button class="main-btn" id="footer-btn" onclick="openSummary()">Buy for £0.28</button>
     </div>
 
-    <div class="bottom-nav">
-        <button class="btn-pay" onclick="openModal()">
-            <svg style="width:16px;height:16px;fill:#fff" viewBox="0 0 24 24"><path d="M18,8H17V6A5,5,0,0,0,7,6V8H6a2,2,0,0,0-2,2V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V10A2,2,0,0,0,18,8ZM9,6a3,3,0,0,1,6,0V8H9ZM12,17a2,2,0,1,1,2-2A2,2,0,0,1,12,17Z"/></svg>
-            Buy for <span id="btn-total">£0.28</span>
-        </button>
-    </div>
-
-    <div id="paymentModal" class="overlay">
-        <div class="modal">
-            <div class="secure-tag">🛡️ Secure payment</div>
-            <h3 style="margin-top:0">Order summary</h3>
-            
-            <div class="summary-row">
-                <span style="color:var(--tt-text-gray)">Account</span>
-                <span id="sum-user" style="font-weight:600"></span>
+    <div id="order-modal" class="modal-bg">
+        <div class="modal-sheet">
+            <h3 style="margin: 0 0 20px 0;">Order summary</h3>
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                <span>Account</span><span id="sum-name" style="font-weight:600;"></span>
             </div>
-            <div class="summary-row">
-                <span id="sum-coins" style="color:var(--tt-text-gray)"></span>
-                <span id="sum-price" style="font-weight:600"></span>
+            <div style="display:flex; justify-content:space-between;">
+                <span id="sum-coins"></span><span id="sum-price" style="font-weight:600;"></span>
             </div>
-
-            <div class="pay-method active">
-                <div style="display:flex; align-items:center; gap:10px">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" height="20">
-                    <span style="font-weight:600">Apple Pay</span>
+            <div class="visa-box">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" style="height:12px;">
+                    <span style="font-family:monospace; font-size:15px; letter-spacing:1px;">**** **** **** 1234</span>
                 </div>
-                <div class="blue-dot"></div>
+                <span style="color:#ccc;">❯</span>
             </div>
+            <button class="main-btn" onclick="executePayment()">Pay</button>
+        </div>
+    </div>
 
-            <div class="summary-row" style="margin-top:20px; font-size:18px; border-top:1px solid #eee; padding-top:15px">
-                <span style="font-weight:700">Total</span>
-                <span id="sum-total" style="font-weight:800"></span>
+    <div id="status-overlay">
+        <div id="loader-box" style="text-align:center;">
+            <div class="spinner"></div>
+            <div style="font-weight:600; font-size:18px;">Processing payment...</div>
+        </div>
+        <div id="success-box" style="display:none; text-align:center;">
+            <div class="check-icon">✓</div>
+            <h2 style="margin:0;">Success!</h2>
+            <p id="final-msg" style="color:var(--tt-text-gray); padding:15px 40px; line-height:1.4;"></p>
+            <button class="main-btn" style="width:200px; margin-top:20px;" onclick="location.reload()">Done</button>
+        </div>
+    </div>
+
+    <div id="custom-modal" class="modal-bg" onclick="this.style.display='none'">
+        <div class="modal-sheet" style="padding:0;" onclick="event.stopPropagation()">
+            <div style="padding:15px; text-align:center; font-weight:600; border-bottom:1px solid #eee;">Custom amount</div>
+            <div style="padding:30px; text-align:center; font-size:42px; font-weight:700;" id="numpad-display">0</div>
+            <div class="numpad-grid">
+                <div class="n-key" onclick="typeNum('1')">1</div><div class="n-key" onclick="typeNum('2')">2</div><div class="n-key" onclick="typeNum('3')">3</div>
+                <div class="n-key" onclick="typeNum('4')">4</div><div class="n-key" onclick="typeNum('5')">5</div><div class="n-key" onclick="typeNum('6')">6</div>
+                <div class="n-key" onclick="typeNum('7')">7</div><div class="n-key" onclick="typeNum('8')">8</div><div class="n-key" onclick="typeNum('9')">9</div>
+                <div class="n-key" style="background:#f8f8f8" onclick="typeNum('C')">C</div><div class="n-key" onclick="typeNum('0')">0</div>
+                <div class="n-key" style="background:var(--tt-red); color:#fff;" onclick="applyCustom()">Next</div>
             </div>
-
-            <button class="btn-pay" style="margin-top:10px; border-radius:8px" onclick="alert('Processing...')">
-                Pay <span id="final-btn-amt"></span>
-            </button>
-            <button onclick="closeModal()" style="width:100%; border:none; background:none; padding:15px; color:var(--tt-text-gray)">Cancel</button>
         </div>
     </div>
 
     <script>
-        let currentPrice = "0.28";
-        let currentCoins = "30";
+        let curC = 30, curP = "0.28", numIn = "";
 
-        function selectCoin(el, amt, prc) {
-            document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
-            currentPrice = prc;
-            currentCoins = amt;
-            document.getElementById('btn-total').innerText = "£" + prc;
+        function selectCoin(el, amt, price) {
+            document.querySelectorAll('.coin-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active'); curC = amt; curP = price;
+            document.getElementById('footer-btn').innerText = `Buy for £${price}`;
         }
 
-        function openModal() {
-            document.getElementById('sum-user').innerText = document.getElementById('user-input').value || "User";
-            document.getElementById('sum-coins').innerText = currentCoins + " Coins";
-            document.getElementById('sum-price').innerText = "£" + currentPrice;
-            document.getElementById('sum-total').innerText = "£" + currentPrice;
-            document.getElementById('final-btn-amt').innerText = "£" + currentPrice;
-            document.getElementById('paymentModal').style.display = 'flex';
+        function openCustomNumpad() { numIn = ""; document.getElementById('numpad-display').innerText = "0"; document.getElementById('custom-modal').style.display = 'flex'; }
+        function typeNum(v) { if(v === 'C') numIn = ""; else if(numIn.length < 6) numIn += v; document.getElementById('numpad-display').innerText = numIn || "0"; }
+        function applyCustom() { if(!numIn || numIn === "0") return; curC = numIn; curP = (parseInt(numIn) * 0.0092).toFixed(2); document.getElementById('footer-btn').innerText = `Buy for £${curP}`; document.getElementById('custom-modal').style.display = 'none'; }
+
+        function openSummary() {
+            document.getElementById('sum-name').innerText = document.getElementById('user-input').value || "User";
+            document.getElementById('sum-coins').innerText = curC + " Coins";
+            document.getElementById('sum-price').innerText = "£" + curP;
+            document.getElementById('order-modal').style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('paymentModal').style.display = 'none';
+        function executePayment() {
+            document.getElementById('order-modal').style.display = 'none';
+            document.getElementById('status-overlay').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('loader-box').style.display = 'none';
+                document.getElementById('success-box').style.display = 'block';
+                document.getElementById('final-msg').innerText = `${curC} Coins sent to ${document.getElementById('user-input').value || "User"}`;
+            }, 3000);
         }
     </script>
 </body>
