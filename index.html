@@ -3,214 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TikTok Coins Recharge</title>
+    <title>TikTok Coins</title>
     <style>
-        :root {
-            --tt-red: #fe2c55;
-            --tt-gold: #ffac33;
-            --tt-black: #161823;
-            --tt-gray: #8a8b91;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'SF Pro Display', -apple-system, sans-serif; }
+        :root { --tt-red: #fe2c55; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background: #fff; display: flex; flex-direction: column; height: 100vh; }
         
-        body { background-color: #fff; overflow-x: hidden; height: 100vh; width: 100vw; }
+        /* تصميم الواجهة بشكل سريع */
+        header { padding: 15px; border-bottom: 1px solid #eee; font-weight: bold; font-size: 18px; }
+        .container { padding: 20px; flex: 1; }
+        .input-box { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; }
+        .btn-pay { background: var(--tt-red); color: #white; border: none; width: 100%; padding: 15px; border-radius: 4px; color: #fff; font-weight: bold; cursor: pointer; }
 
-        /* Header Area */
-        header { 
-            display: flex; align-items: center; padding: 12px 16px; 
-            border-bottom: 0.5px solid #ebebeb; gap: 8px; 
-        }
-        .tt-logo { width: 24px; height: 24px; }
-
-        /* Main UI */
-        .container { padding: 16px; }
-        .input-box { 
-            border: 1px solid #e1e1e1; border-radius: 4px; padding: 12px; 
-            display: flex; align-items: center; gap: 10px; margin-bottom: 20px; 
-        }
-        .input-box input { border: none; outline: none; width: 100%; font-size: 16px; }
-
-        .coins-grid { 
-            display: grid; grid-template-columns: repeat(3, 1fr); 
-            gap: 10px; margin-bottom: 100px; 
-        }
-        .coin-card { 
-            border: 1px solid #f1f1f2; border-radius: 8px; 
-            padding: 18px 4px; text-align: center; cursor: pointer; 
-        }
-        .coin-card.active { 
-            border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); 
-        }
-
-        .gold-coin { 
-            width: 14px; height: 14px; background: var(--tt-gold); 
-            border-radius: 50%; display: inline-flex; align-items: center; 
-            justify-content: center; color: #fff; font-size: 9px; 
-            margin-right: 4px; font-weight: bold; 
-        }
-        .gold-coin::after { content: "b"; }
-
-        /* Action Button */
-        .footer { 
-            position: fixed; bottom: 0; width: 100%; padding: 16px; 
-            background: #fff; border-top: 1px solid #eee; z-index: 100; 
-        }
-        .main-btn { 
-            background: var(--tt-red); color: #fff; border: none; 
-            width: 100%; padding: 14px; border-radius: 4px; 
-            font-weight: 700; font-size: 16px; cursor: pointer;
-        }
-
-        /* --- THE ULTIMATE CENTERING SOLUTION --- */
-        #status-overlay {
-            display: none; /* Controlled by JS */
+        /* الشاشة النهائية المركزية */
+        #final-screen {
+            display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #ffffff;
-            z-index: 99999;
-            /* Flex centering */
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            inset: 0;
+            background: white;
+            z-index: 9999;
+            /* التوسيط المطلق */
+            display: none; 
+            align-items: center; 
+            justify-content: center; 
             text-align: center;
         }
 
-        .loader {
-            width: 55px; height: 55px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--tt-red);
+        .success-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* طلبك الخاص: العلامة الخضراء في منتصف الجملة */
+        .success-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* المسافة بين الكلمات والعلامة */
+            margin-bottom: 10px;
+        }
+
+        .green-check {
+            width: 40px;
+            height: 40px;
+            background: #25c059;
+            color: white;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .check-mark {
-            width: 85px; height: 85px; background: #25c059;
-            color: white; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 45px; margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
 
-        /* Summary Modal */
-        #summary-modal { 
-            display: none; position: fixed; inset: 0; 
-            background: rgba(0,0,0,0.5); z-index: 2000; 
-            align-items: flex-end; 
-        }
-        .modal-content { 
-            background: white; width: 100%; border-radius: 12px 12px 0 0; 
-            padding: 24px 20px; animation: slideUp 0.3s ease; 
-        }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .sub-text { color: #8a8b91; margin-bottom: 30px; }
     </style>
 </head>
 <body>
 
-    <header>
-        <svg class="tt-logo" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
-        <span style="font-weight:700; font-size:18px;">Recharge</span>
-    </header>
+    <header>Recharge</header>
 
     <div class="container">
-        <div class="input-box">
-            <svg width="18" height="18" viewBox="0 0 448 512" style="fill:#555;"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
-            <input type="text" id="username" placeholder="Enter username">
-        </div>
-
-        <div style="font-weight:700; margin-bottom:15px; font-size: 16px;">Recharge</div>
-        <div class="coins-grid">
-            <div class="coin-card active" onclick="select(this, 30, '0.28')">
-                <div style="font-weight:700;"><span class="gold-coin"></span>30</div>
-                <div style="color:var(--tt-gray); font-size:13px;">£0.28</div>
-            </div>
-            <div class="coin-card" onclick="select(this, 350, '3.25')">
-                <div style="font-weight:700;"><span class="gold-coin"></span>350</div>
-                <div style="color:var(--tt-gray); font-size:13px;">£3.25</div>
-            </div>
-            <div class="coin-card" onclick="select(this, 700, '6.50')">
-                <div style="font-weight:700;"><span class="gold-coin"></span>700</div>
-                <div style="color:var(--tt-gray); font-size:13px;">£6.50</div>
-            </div>
-            <div class="coin-card" onclick="select(this, 1400, '12.99')">
-                <div style="font-weight:700;"><span class="gold-coin"></span>1400</div>
-                <div style="color:var(--tt-gray); font-size:13px;">£12.99</div>
-            </div>
-            <div class="coin-card" onclick="select(this, 3500, '32.50')">
-                <div style="font-weight:700;"><span class="gold-coin"></span>3500</div>
-                <div style="color:var(--tt-gray); font-size:13px;">£32.50</div>
-            </div>
-            <div class="coin-card">
-                <div style="font-weight:700; margin-top:8px;">Custom</div>
-            </div>
-        </div>
+        <input type="text" id="user" class="input-box" placeholder="Enter username">
+        <div style="margin-bottom: 20px;">Select amount: 30 Coins - £0.28</div>
+        <button class="btn-pay" onclick="showSuccess()">Recharge Now</button>
     </div>
 
-    <div class="footer">
-        <button class="main-btn" id="footer-text" onclick="openSummary()">Buy for £0.28</button>
-    </div>
+    <div id="final-screen">
+        <div class="success-content">
+            
+            <div class="success-text">
+                Successful 
+                <span class="green-check">✓</span> 
+                recharge!
+            </div>
 
-    <div id="status-overlay">
-        <div id="loading-box">
-            <div class="loader" style="margin: 0 auto;"></div>
-            <p style="margin-top:20px; font-weight:600; font-size:18px;">Processing payment...</p>
-        </div>
-        
-        <div id="success-box" style="display:none;">
-            <div class="check-mark" style="margin: 0 auto;">✓</div>
-            <h2 style="margin:0; font-size: 24px;">Success!</h2>
-            <p id="final-msg" style="color:var(--tt-gray); margin: 15px 0 30px 0; padding: 0 40px;"></p>
-            <button class="main-btn" style="width:220px;" onclick="location.reload()">Done</button>
-        </div>
-    </div>
-
-    <div id="summary-modal">
-        <div class="modal-content">
-            <h3 style="margin-bottom:20px; font-size: 20px;">Order summary</h3>
-            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                <span style="color:#666;">Account</span><b id="m-user"></b>
-            </div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                <span id="m-coins" style="color:#666;"></span><b id="m-price"></b>
-            </div>
-            <div style="padding:16px; border:1px solid #eee; border-radius:8px; margin-bottom:25px; display:flex; justify-content:space-between; background:#fafafa; align-items:center;">
-                <span style="letter-spacing:1px;">💳 **** **** **** 1234</span><span style="color:#ccc;">❯</span>
-            </div>
-            <button class="main-btn" onclick="process()">Pay</button>
+            <p id="info" class="sub-text"></p>
+            
+            <button class="btn-pay" style="width: 200px;" onclick="location.reload()">Done</button>
         </div>
     </div>
 
     <script>
-        let selectedAmt = 30;
-        let selectedPrice = "0.28";
-
-        function select(el, amt, price) {
-            document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-            selectedAmt = amt;
-            selectedPrice = price;
-            document.getElementById('footer-text').innerText = `Buy for £${price}`;
-        }
-
-        function openSummary() {
-            document.getElementById('m-user').innerText = document.getElementById('username').value || "User";
-            document.getElementById('m-coins').innerText = selectedAmt + " Coins";
-            document.getElementById('m-price').innerText = "£" + selectedPrice;
-            document.getElementById('summary-modal').style.display = 'flex';
-        }
-
-        function process() {
-            document.getElementById('summary-modal').style.display = 'none';
-            const overlay = document.getElementById('status-overlay');
-            overlay.style.display = 'flex'; // This triggers the centering
+        function showSuccess() {
+            const username = document.getElementById('user').value || "User";
+            document.getElementById('info').innerText = `30 Coins sent to ${username}`;
             
-            setTimeout(() => {
-                document.getElementById('loading-box').style.display = 'none';
-                document.getElementById('success-box').style.display = 'block';
-                const user = document.getElementById('username').value || "User";
-                document.getElementById('final-msg').innerText = `${selectedAmt} Coins sent to ${user}`;
-            }, 3000);
+            // إظهار الشاشة وتوسيطها
+            const screen = document.getElementById('final-screen');
+            screen.style.display = 'flex';
         }
     </script>
 </body>
