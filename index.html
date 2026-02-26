@@ -9,7 +9,6 @@
             --tt-red: #fe2c55;
             --tt-gold: #ffac33;
             --tt-black: #161823;
-            --tt-gray: #f1f1f2;
             --tt-text-gray: #8a8b91;
         }
 
@@ -32,7 +31,7 @@
         /* Coins Grid */
         .recharge-title { padding: 0 16px; font-weight: 700; font-size: 16px; margin-bottom: 8px; margin-top: 10px; }
         .grid-coins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 16px; margin-bottom: 120px; }
-        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 18px 4px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 18px 4px; text-align: center; cursor: pointer; }
         .coin-card.selected { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); }
 
         .gold-icon {
@@ -47,42 +46,58 @@
         .bottom-bar { position: fixed; bottom: 0; width: 100%; padding: 16px; background:#fff; border-top: 1px solid #eee; z-index: 100; }
         .buy-btn { background: var(--tt-red); color: #fff; border: none; width: 100%; padding: 14px; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; }
 
-        /* Custom Numpad Modal */
+        /* Custom Numpad */
         #numpad-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 3000; align-items: flex-end; }
         .numpad-content { background: #fff; width: 100%; border-radius: 12px 12px 0 0; animation: slideUp 0.3s ease-out; }
         .numpad-header { padding: 15px; text-align: center; border-bottom: 1px solid #eee; font-weight: 600; }
         .numpad-display { padding: 30px; text-align: center; font-size: 36px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: #d1d4d9; gap: 1px; }
         .num-key { background: #fff; padding: 20px; font-size: 24px; text-align: center; font-weight: 500; }
-        .num-key:active { background: #eee; }
 
-        /* Summary Modal */
+        /* Payment Modal */
         #payment-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: flex-end; }
         .modal-content { background: white; width: 100%; border-radius: 12px 12px 0 0; padding: 24px 20px; animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-        .visa-row {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 15px; border: 1px solid #eee; border-radius: 8px; margin: 15px 0; background: #fafafa;
-        }
-
-        /* --- Full Centered Status Overlay --- */
+        /* -------------------------------------------------- */
+        /* التعديل الجذري للتوسيط هنا - شاشة الحالة النهائية */
+        /* -------------------------------------------------- */
         #status-overlay {
-            display: none; position: fixed; inset: 0; background: #fff; z-index: 9999;
-            flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0;
+            width: 100vw; 
+            height: 100vh; /* ملء ارتفاع الشاشة بالكامل */
+            background: #ffffff; 
+            z-index: 9999;
+            /* توسيط حقيقي وقوي */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .loader { 
-            width: 55px; height: 55px; border: 5px solid #f3f3f3; border-top: 5px solid var(--tt-red); 
+            width: 60px; height: 60px; 
+            border: 6px solid #f3f3f3; border-top: 6px solid var(--tt-red); 
             border-radius: 50%; animation: spin 1s linear infinite; 
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .success-icon { 
-            width: 85px; height: 85px; background: #25c059; color: white; 
+            width: 90px; height: 90px; background: #25c059; color: white; 
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            font-size: 50px; margin-bottom: 20px;
+            font-size: 55px; margin-bottom: 25px;
         }
+
+        #loading-box, #success-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        /* -------------------------------------------------- */
+
     </style>
 </head>
 <body>
@@ -105,10 +120,6 @@
             <div style="font-weight:700;"><span class="gold-icon"></span>30</div>
             <div class="price">£0.28</div>
         </div>
-        <div class="coin-card" onclick="sel(this, 350, '3.25')">
-            <div style="font-weight:700;"><span class="gold-icon"></span>350</div>
-            <div class="price">£3.25</div>
-        </div>
         <div class="coin-card" onclick="sel(this, 700, '6.50')">
             <div style="font-weight:700;"><span class="gold-icon"></span>700</div>
             <div class="price">£6.50</div>
@@ -116,10 +127,6 @@
         <div class="coin-card" onclick="sel(this, 1400, '12.99')">
             <div style="font-weight:700;"><span class="gold-icon"></span>1400</div>
             <div class="price">£12.99</div>
-        </div>
-        <div class="coin-card" onclick="sel(this, 3500, '32.50')">
-            <div style="font-weight:700;"><span class="gold-icon"></span>3500</div>
-            <div class="price">£32.50</div>
         </div>
         <div class="coin-card" onclick="openCustom()">
             <div style="font-weight:700; margin-top:10px;">Custom</div>
@@ -130,25 +137,28 @@
         <button class="buy-btn" id="pay-trigger" onclick="openOrder()">Buy for £0.28</button>
     </div>
 
+    <div id="status-overlay">
+        <div id="loading-box">
+            <div class="loader"></div>
+            <p style="margin-top:20px; font-weight:600; font-size:18px;">Processing payment...</p>
+        </div>
+        <div id="success-box" style="display:none;">
+            <div class="success-icon">✓</div>
+            <h2 style="margin:0;">Successful recharge!</h2>
+            <p id="success-msg" style="color:var(--tt-text-gray); padding:15px 40px; font-size:16px;"></p>
+            <button class="buy-btn" style="width:200px; margin-top:20px;" onclick="location.reload()">Done</button>
+        </div>
+    </div>
+
     <div id="numpad-modal" onclick="this.style.display='none'">
         <div class="numpad-content" onclick="event.stopPropagation()">
             <div class="numpad-header">Custom amount</div>
-            <div class="numpad-display">
-                <span class="gold-icon" style="width:24px; height:24px;"></span>
-                <span id="custom-val">0</span>
-            </div>
+            <div class="numpad-display"><span id="custom-val">0</span></div>
             <div class="numpad-grid">
-                <div class="num-key" onclick="pressNum('1')">1</div>
-                <div class="num-key" onclick="pressNum('2')">2</div>
-                <div class="num-key" onclick="pressNum('3')">3</div>
-                <div class="num-key" onclick="pressNum('4')">4</div>
-                <div class="num-key" onclick="pressNum('5')">5</div>
-                <div class="num-key" onclick="pressNum('6')">6</div>
-                <div class="num-key" onclick="pressNum('7')">7</div>
-                <div class="num-key" onclick="pressNum('8')">8</div>
-                <div class="num-key" onclick="pressNum('9')">9</div>
-                <div class="num-key" style="background:#f8f8f8" onclick="pressNum('C')">C</div>
-                <div class="num-key" onclick="pressNum('0')">0</div>
+                <div class="num-key" onclick="pressNum('1')">1</div><div class="num-key" onclick="pressNum('2')">2</div><div class="num-key" onclick="pressNum('3')">3</div>
+                <div class="num-key" onclick="pressNum('4')">4</div><div class="num-key" onclick="pressNum('5')">5</div><div class="num-key" onclick="pressNum('6')">6</div>
+                <div class="num-key" onclick="pressNum('7')">7</div><div class="num-key" onclick="pressNum('8')">8</div><div class="num-key" onclick="pressNum('9')">9</div>
+                <div class="num-key" style="background:#f8f8f8" onclick="pressNum('C')">C</div><div class="num-key" onclick="pressNum('0')">0</div>
                 <div class="num-key" style="background:var(--tt-red); color:#fff;" onclick="applyCustom()">Next</div>
             </div>
         </div>
@@ -163,24 +173,7 @@
             <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
                 <span id="sum-coins"></span><span id="sum-price" style="font-weight:600;"></span>
             </div>
-            <div class="visa-row">
-                <div style="display:flex; align-items:center; gap:10px;"><span>💳</span><span style="font-family:monospace;">**** **** **** 1234</span></div>
-                <span style="color:#ccc;">❯</span>
-            </div>
             <button class="buy-btn" onclick="startProcess()">Pay</button>
-        </div>
-    </div>
-
-    <div id="status-overlay">
-        <div id="loading-box">
-            <div class="loader"></div>
-            <p style="margin-top:20px; font-weight:600; font-size:18px;">Processing payment...</p>
-        </div>
-        <div id="success-box" style="display:none;">
-            <div class="success-icon">✓</div>
-            <h2 style="margin:0;">Success!</h2>
-            <p id="success-msg" style="color:var(--tt-text-gray); padding:10px 40px;"></p>
-            <button class="buy-btn" style="width:200px; margin-top:30px;" onclick="location.reload()">Done</button>
         </div>
     </div>
 
@@ -207,7 +200,6 @@
         function applyCustom() {
             if(!tempVal || tempVal === "0") return;
             cCoins = tempVal; cPrice = (parseInt(tempVal) * 0.0093).toFixed(2);
-            document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('selected'));
             document.getElementById('pay-trigger').innerText = `Buy for £${cPrice}`;
             document.getElementById('numpad-modal').style.display = 'none';
         }
@@ -221,11 +213,14 @@
 
         function startProcess() {
             document.getElementById('payment-modal').style.display = 'none';
-            document.getElementById('status-overlay').style.display = 'flex';
+            // إظهار الغطاء مع ضمان الـ Flex
+            const overlay = document.getElementById('status-overlay');
+            overlay.style.display = 'flex';
+            
             setTimeout(() => {
                 document.getElementById('loading-box').style.display = 'none';
-                document.getElementById('success-box').style.display = 'block';
-                document.getElementById('success-msg').innerText = `${cCoins} Coins sent to ${document.getElementById('username').value || "User"}`;
+                document.getElementById('success-box').style.display = 'flex';
+                document.getElementById('success-msg').innerText = `${cCoins} Coins were sent to ${document.getElementById('username').value || "User"}`;
             }, 3000);
         }
     </script>
