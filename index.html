@@ -16,35 +16,18 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'SF Pro Display', -apple-system, sans-serif; }
         body { background-color: #fff; margin: 0; padding: 0; color: var(--tt-black); user-select: none; overflow-x: hidden; }
 
-        /* Header matching image */
-        header {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            border-bottom: 0.5px solid #ebebeb;
-            gap: 8px;
-        }
+        /* Header */
+        header { display: flex; align-items: center; padding: 12px 16px; border-bottom: 0.5px solid #ebebeb; gap: 8px; }
         .tt-logo-img { width: 24px; height: 24px; }
         .header-text { font-weight: 700; font-size: 18px; }
 
-        /* User Input Section */
+        /* Username Input */
         .profile-section { padding: 20px 16px; }
         .username-box {
-            border: 1px solid #e1e1e1;
-            border-radius: 4px;
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #fff;
+            border: 1px solid #e1e1e1; border-radius: 4px; padding: 12px;
+            display: flex; align-items: center; gap: 10px; background: #fff;
         }
-        .username-box input {
-            border: none;
-            outline: none;
-            width: 100%;
-            font-size: 16px;
-            color: var(--tt-black);
-        }
+        .username-box input { border: none; outline: none; width: 100%; font-size: 16px; color: var(--tt-black); }
 
         /* Coins Grid */
         .recharge-title { padding: 0 16px; font-weight: 700; font-size: 16px; margin-bottom: 8px; margin-top: 10px; }
@@ -53,41 +36,58 @@
         .coin-card.selected { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); }
 
         .gold-icon {
-            width: 16px; height: 16px;
-            background: var(--tt-gold);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center; justify-content: center;
-            color: #fff; font-size: 10px; font-weight: bold;
-            margin-right: 4px;
+            width: 16px; height: 16px; background: var(--tt-gold); border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 10px; font-weight: bold; margin-right: 4px;
         }
         .gold-icon::after { content: "d"; transform: scaleX(-1); display: inline-block; }
-
         .price { color: var(--tt-text-gray); font-size: 13px; margin-top: 5px; }
 
-        /* Action Button */
+        /* Bottom Bar */
         .bottom-bar { position: fixed; bottom: 0; width: 100%; padding: 16px; background:#fff; border-top: 1px solid #eee; z-index: 100; }
         .buy-btn { background: var(--tt-red); color: #fff; border: none; width: 100%; padding: 14px; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; }
 
-        /* Summary Modal */
+        /* Modal */
         #payment-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: flex-end; }
         .modal-content { background: white; width: 100%; border-radius: 12px 12px 0 0; padding: 24px 20px; animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
         .visa-row {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 15px; border: 1px solid #eee; border-radius: 8px; margin: 15px 0;
-            background: #fafafa;
+            padding: 15px; border: 1px solid #eee; border-radius: 8px; margin: 15px 0; background: #fafafa;
         }
 
-        /* Full Screen Overlay for Processing/Success */
+        /* --- شاشات الحالة (التحميل والنجاح) متمركزة تماماً --- */
         #status-overlay {
             display: none; position: fixed; inset: 0; background: #fff; z-index: 5000;
-            flex-direction: column; align-items: center; justify-content: center; text-align: center;
+            /* ههنا السر في التوسيط */
+            display: none; flex-direction: column; align-items: center; justify-content: center; 
+            text-align: center;
         }
-        .loader { width: 45px; height: 45px; border: 3px solid #f3f3f3; border-top: 3px solid var(--tt-red); border-radius: 50%; animation: spin 1s linear infinite; }
+
+        /* علامة التحميل الدوارة */
+        .loader { 
+            width: 50px; height: 50px; 
+            border: 4px solid #f3f3f3; border-top: 4px solid var(--tt-red); 
+            border-radius: 50%; animation: spin 1s linear infinite; 
+            margin: 0 auto; 
+        }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .success-icon { width: 70px; height: 70px; background: #25c059; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 20px; }
+
+        /* علامة الصح */
+        .success-icon { 
+            width: 80px; height: 80px; background: #25c059; color: white; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-size: 45px; margin: 0 auto 20px auto; 
+        }
+
+        #loading-box, #success-box {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -150,8 +150,8 @@
             <div style="color:var(--tt-text-gray); font-size:13px;">Payment method</div>
             <div class="visa-row">
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <span>💳</span>
-                    <span style="font-family:monospace;">**** **** **** 1234</span>
+                    <span style="font-size:20px;">💳</span>
+                    <span style="font-family:monospace; font-size:15px;">**** **** **** 1234</span>
                 </div>
                 <span style="color:#ccc;">❯</span>
             </div>
@@ -167,13 +167,13 @@
     <div id="status-overlay">
         <div id="loading-box">
             <div class="loader"></div>
-            <p style="margin-top:20px; font-weight:600;">Processing your payment...</p>
+            <p style="margin-top:20px; font-weight:600; font-size:18px;">Processing your payment...</p>
         </div>
         <div id="success-box" style="display:none;">
             <div class="success-icon">✓</div>
-            <h2 style="margin:0">Successful recharge!</h2>
-            <p id="success-msg" style="color:var(--tt-text-gray); padding:10px 40px;"></p>
-            <button class="buy-btn" style="width:80%; margin-top:20px;" onclick="location.reload()">Done</button>
+            <h2 style="margin:0; font-size:24px;">Successful recharge!</h2>
+            <p id="success-msg" style="color:var(--tt-text-gray); padding:15px 40px; font-size:16px;"></p>
+            <button class="buy-btn" style="width:80%; margin-top:30px;" onclick="location.reload()">Done</button>
         </div>
     </div>
 
@@ -198,13 +198,15 @@
         function startProcess() {
             document.getElementById('payment-modal').style.display = 'none';
             document.getElementById('status-overlay').style.display = 'flex';
+            document.getElementById('loading-box').style.display = 'flex';
+            document.getElementById('success-box').style.display = 'none';
             
             setTimeout(() => {
                 document.getElementById('loading-box').style.display = 'none';
-                document.getElementById('success-box').style.display = 'block';
+                document.getElementById('success-box').style.display = 'flex';
                 const user = document.getElementById('username').value || "User";
                 document.getElementById('success-msg').innerText = `${cCoins} Coins were sent to ${user}`;
-            }, 3000);
+            }, 3000); // 3 seconds loading
         }
     </script>
 </body>
