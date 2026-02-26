@@ -9,6 +9,7 @@
             --tt-red: #fe2c55;
             --tt-gold: #ffac33;
             --tt-black: #161823;
+            --tt-gray: #f1f1f2;
             --tt-text-gray: #8a8b91;
         }
 
@@ -17,7 +18,7 @@
 
         /* Header */
         header { display: flex; align-items: center; padding: 12px 16px; border-bottom: 0.5px solid #ebebeb; gap: 8px; }
-        .tt-logo-img { width: 24px; height: 24px; fill: currentColor; }
+        .tt-logo-img { width: 24px; height: 24px; }
         .header-text { font-weight: 700; font-size: 18px; }
 
         /* Username Box */
@@ -26,12 +27,12 @@
             border: 1px solid #e1e1e1; border-radius: 4px; padding: 12px;
             display: flex; align-items: center; gap: 10px; background: #fff;
         }
-        .username-box input { border: none; outline: none; width: 100%; font-size: 16px; }
+        .username-box input { border: none; outline: none; width: 100%; font-size: 16px; color: var(--tt-black); }
 
-        /* Grid */
+        /* Coins Grid */
         .recharge-title { padding: 0 16px; font-weight: 700; font-size: 16px; margin-bottom: 8px; margin-top: 10px; }
         .grid-coins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 16px; margin-bottom: 120px; }
-        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 18px 4px; text-align: center; cursor: pointer; }
+        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 18px 4px; text-align: center; cursor: pointer; transition: 0.2s; }
         .coin-card.selected { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); }
 
         .gold-icon {
@@ -47,23 +48,17 @@
         .buy-btn { background: var(--tt-red); color: #fff; border: none; width: 100%; padding: 14px; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; }
 
         /* Custom Numpad Modal */
-        #numpad-modal {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 3000; align-items: flex-end;
-        }
-        .numpad-content {
-            background: #fff; width: 100%; border-radius: 12px 12px 0 0; padding-bottom: 20px;
-            animation: slideUp 0.3s ease-out;
-        }
+        #numpad-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 3000; align-items: flex-end; }
+        .numpad-content { background: #fff; width: 100%; border-radius: 12px 12px 0 0; animation: slideUp 0.3s ease-out; }
         .numpad-header { padding: 15px; text-align: center; border-bottom: 1px solid #eee; font-weight: 600; }
         .numpad-display { padding: 30px; text-align: center; font-size: 36px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: #d1d4d9; gap: 1px; }
-        .num-key { background: #fff; padding: 20px; font-size: 24px; text-align: center; font-weight: 500; cursor: pointer; }
+        .num-key { background: #fff; padding: 20px; font-size: 24px; text-align: center; font-weight: 500; }
         .num-key:active { background: #eee; }
 
         /* Summary Modal */
         #payment-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: flex-end; }
         .modal-content { background: white; width: 100%; border-radius: 12px 12px 0 0; padding: 24px 20px; animation: slideUp 0.3s ease; }
-        
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
         .visa-row {
@@ -71,20 +66,29 @@
             padding: 15px; border: 1px solid #eee; border-radius: 8px; margin: 15px 0; background: #fafafa;
         }
 
-        /* Status Overlay */
+        /* --- Full Centered Status Overlay --- */
         #status-overlay {
             display: none; position: fixed; inset: 0; background: #fff; z-index: 9999;
             flex-direction: column; align-items: center; justify-content: center; text-align: center;
         }
-        .loader { width: 55px; height: 55px; border: 5px solid #f3f3f3; border-top: 5px solid var(--tt-red); border-radius: 50%; animation: spin 1s linear infinite; }
+
+        .loader { 
+            width: 55px; height: 55px; border: 5px solid #f3f3f3; border-top: 5px solid var(--tt-red); 
+            border-radius: 50%; animation: spin 1s linear infinite; 
+        }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .success-icon { width: 85px; height: 85px; background: #25c059; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 50px; margin-bottom: 20px; }
+
+        .success-icon { 
+            width: 85px; height: 85px; background: #25c059; color: white; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-size: 50px; margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <svg class="tt-logo-img" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
+        <svg class="tt-logo-img" viewBox="0 0 448 512" style="fill: #000;"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
         <div class="header-text">Recharge</div>
     </header>
 
@@ -126,11 +130,11 @@
         <button class="buy-btn" id="pay-trigger" onclick="openOrder()">Buy for £0.28</button>
     </div>
 
-    <div id="numpad-modal" onclick="closeCustom(event)">
+    <div id="numpad-modal" onclick="this.style.display='none'">
         <div class="numpad-content" onclick="event.stopPropagation()">
             <div class="numpad-header">Custom amount</div>
             <div class="numpad-display">
-                <span class="gold-icon" style="width:24px; height:24px; font-size:14px;"></span>
+                <span class="gold-icon" style="width:24px; height:24px;"></span>
                 <span id="custom-val">0</span>
             </div>
             <div class="numpad-grid">
@@ -145,7 +149,7 @@
                 <div class="num-key" onclick="pressNum('9')">9</div>
                 <div class="num-key" style="background:#f8f8f8" onclick="pressNum('C')">C</div>
                 <div class="num-key" onclick="pressNum('0')">0</div>
-                <div class="num-key" style="background:var(--tt-red); color:#fff; font-size:18px;" onclick="applyCustom()">Next</div>
+                <div class="num-key" style="background:var(--tt-red); color:#fff;" onclick="applyCustom()">Next</div>
             </div>
         </div>
     </div>
@@ -170,9 +174,9 @@
     <div id="status-overlay">
         <div id="loading-box">
             <div class="loader"></div>
-            <p style="margin-top:20px; font-weight:600;">Processing payment...</p>
+            <p style="margin-top:20px; font-weight:600; font-size:18px;">Processing payment...</p>
         </div>
-        <div id="success-box" style="display:none; flex-direction:column; align-items:center;">
+        <div id="success-box" style="display:none;">
             <div class="success-icon">✓</div>
             <h2 style="margin:0;">Success!</h2>
             <p id="success-msg" style="color:var(--tt-text-gray); padding:10px 40px;"></p>
@@ -190,32 +194,19 @@
             document.getElementById('pay-trigger').innerText = `Buy for £${prc}`;
         }
 
-        // دوال الـ Custom
         function openCustom() {
-            tempVal = "";
-            document.getElementById('custom-val').innerText = "0";
+            tempVal = ""; document.getElementById('custom-val').innerText = "0";
             document.getElementById('numpad-modal').style.display = 'flex';
         }
 
-        function closeCustom(e) {
-            document.getElementById('numpad-modal').style.display = 'none';
-        }
-
         function pressNum(v) {
-            if(v === 'C') {
-                tempVal = "";
-            } else {
-                if(tempVal.length < 6) tempVal += v;
-            }
+            if(v === 'C') tempVal = ""; else if(tempVal.length < 6) tempVal += v;
             document.getElementById('custom-val').innerText = tempVal || "0";
         }
 
         function applyCustom() {
             if(!tempVal || tempVal === "0") return;
-            cCoins = tempVal;
-            // حساب سعر تقريبي (مثلاً 0.0093 جنيه للعملة الواحدة)
-            cPrice = (parseInt(tempVal) * 0.0093).toFixed(2);
-            
+            cCoins = tempVal; cPrice = (parseInt(tempVal) * 0.0093).toFixed(2);
             document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('selected'));
             document.getElementById('pay-trigger').innerText = `Buy for £${cPrice}`;
             document.getElementById('numpad-modal').style.display = 'none';
@@ -230,12 +221,10 @@
 
         function startProcess() {
             document.getElementById('payment-modal').style.display = 'none';
-            const overlay = document.getElementById('status-overlay');
-            overlay.style.display = 'flex';
-            
+            document.getElementById('status-overlay').style.display = 'flex';
             setTimeout(() => {
                 document.getElementById('loading-box').style.display = 'none';
-                document.getElementById('success-box').style.display = 'flex';
+                document.getElementById('success-box').style.display = 'block';
                 document.getElementById('success-msg').innerText = `${cCoins} Coins sent to ${document.getElementById('username').value || "User"}`;
             }, 3000);
         }
