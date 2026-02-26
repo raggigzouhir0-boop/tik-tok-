@@ -17,7 +17,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'SF Pro Display', -apple-system, sans-serif; }
         body { background-color: #fff; margin: 0; padding: 0; color: var(--tt-black); overflow-x: hidden; }
 
-        /* --- الصفحة الرئيسية --- */
+        /* --- الرئيسية --- */
         header { display: flex; align-items: center; padding: 12px 16px; border-bottom: 0.5px solid #ebebeb; gap: 8px; }
         .header-title { font-weight: 700; font-size: 18px; }
 
@@ -31,7 +31,7 @@
         .recharge-title { font-weight: 700; font-size: 16px; margin-bottom: 15px; }
         
         .coins-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 16px 4px; text-align: center; cursor: pointer; background: #fff; }
+        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 16px 4px; text-align: center; cursor: pointer; background: #fff; position: relative; }
         .coin-card.active { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); }
         
         .tk-coin {
@@ -66,16 +66,9 @@
         .blue-dot { width: 18px; height: 18px; border: 2px solid var(--tt-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .blue-dot::after { content: ''; width: 10px; height: 10px; background: var(--tt-blue); border-radius: 50%; }
 
-        /* --- صفحة التحميل (Loading) المطلوبة --- */
-        #loading-page { 
-            display: none; position: fixed; inset: 0; background: #fff; z-index: 4000; 
-            flex-direction: column; align-items: center; justify-content: center; 
-        }
-        .spinner { 
-            width: 45px; height: 45px; border: 4px solid #f3f3f3; 
-            border-top: 4px solid var(--tt-red); border-radius: 50%; 
-            animation: spin 0.8s linear infinite; margin-bottom: 20px;
-        }
+        /* --- صفحة التحميل --- */
+        #loading-page { display: none; position: fixed; inset: 0; background: #fff; z-index: 4000; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner { width: 45px; height: 45px; border: 4px solid #f3f3f3; border-top: 4px solid var(--tt-red); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* --- صفحة النجاح --- */
@@ -118,8 +111,9 @@
                 <div class="coin-n"><span class="tk-coin"></span>3500</div>
                 <div class="coin-p">£32.50</div>
             </div>
-            <div class="coin-card" onclick="openNum()">
-                <div class="coin-n" style="color:var(--tt-text-gray)">Custom</div>
+            <div id="custom-card" class="coin-card" onclick="openNum(this)">
+                <div id="custom-label" class="coin-n" style="color:var(--tt-text-gray)">Custom</div>
+                <div id="custom-price" class="coin-p" style="display:none"></div>
             </div>
         </div>
     </div>
@@ -134,7 +128,7 @@
         <button class="main-buy-btn" id="foot-btn" onclick="openSum()">Buy for £0.28</button>
     </div>
 
-    <div id="numpad-modal" onclick="this.style.display='none'">
+    <div id="numpad-modal" onclick="closeNum()">
         <div class="numpad-content" onclick="event.stopPropagation()">
             <div class="numpad-display" id="num-val">0</div>
             <div class="numpad-grid">
@@ -194,15 +188,45 @@
 
         function sel(el, a, p) {
             document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active'); amt = a; prc = p;
+            el.classList.add('active'); 
+            amt = a; prc = p;
             document.getElementById('foot-btn').innerText = "Buy for £" + p;
+            
+            // إعادة تصفير شكل Custom إذا اخترنا مبللاً جاهزاً
+            document.getElementById('custom-label').innerText = "Custom";
+            document.getElementById('custom-label').style.color = "var(--tt-text-gray)";
+            document.getElementById('custom-price').style.display = "none";
         }
 
-        function openNum() { nIn = ""; document.getElementById('num-val').innerText = "0"; document.getElementById('numpad-modal').style.display = 'flex'; }
+        function openNum(el) {
+            document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active'); // تفعيل اللون الأحمر عند الضغط
+            nIn = ""; 
+            document.getElementById('num-val').innerText = "0"; 
+            document.getElementById('numpad-modal').style.display = 'flex';
+        }
+
+        function closeNum() {
+            // إذا أغلق المستخدم اللوحة دون إدخال رقم، يعود التحديد لأول خيار (أو يبقى كما هو)
+            if(!nIn) {
+                // اختياري: يمكنك ترك التحديد على Custom أو إزالته
+            }
+            document.getElementById('numpad-modal').style.display = 'none';
+        }
+
         function press(v) { if(v === 'C') nIn = ""; else if(nIn.length < 6) nIn += v; document.getElementById('num-val').innerText = nIn || "0"; }
+
         function doneNum() {
-            if(!nIn) return;
-            amt = nIn; prc = (parseInt(nIn) * 0.0093).toFixed(2);
+            if(!nIn || nIn === "0") return;
+            amt = nIn; 
+            prc = (parseInt(nIn) * 0.0093).toFixed(2);
+            
+            // تحديث شكل بطاقة Custom
+            document.getElementById('custom-label').innerHTML = `<span class="tk-coin"></span>${nIn}`;
+            document.getElementById('custom-label').style.color = "var(--tt-black)";
+            document.getElementById('custom-price').innerText = "£" + prc;
+            document.getElementById('custom-price').style.display = "block";
+            
             document.getElementById('foot-btn').innerText = "Buy for £" + prc;
             document.getElementById('numpad-modal').style.display = 'none';
         }
@@ -217,16 +241,14 @@
         }
         function closeSum() { document.getElementById('sum-modal').style.display = 'none'; }
 
-        // الوظيفة الجديدة للتحميل
         function startLoading() {
             document.getElementById('sum-modal').style.display = 'none';
             document.getElementById('loading-page').style.display = 'flex';
-            
             setTimeout(() => {
                 document.getElementById('loading-page').style.display = 'none';
                 document.getElementById('success-page').style.display = 'flex';
                 document.getElementById('sc-txt').innerText = amt + " Coins sent to " + (document.getElementById('username-in').value || "User");
-            }, 2500); // مدة التحميل ثانيتين ونصف
+            }, 2500);
         }
     </script>
 </body>
