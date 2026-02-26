@@ -3,241 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TikTok Coins Recharge</title>
+    <title>TikTok Recharge</title>
     <style>
         :root {
             --tt-red: #fe2c55;
-            --tt-gold: #ffac33;
             --tt-black: #161823;
             --tt-text-gray: #8a8b91;
-            --tt-border: #f1f1f2;
-            --tt-green-bar: #eafbef; /* لون شريط الدفع الآمن الجديد */
-            --tt-green-text: #25c059;
+            --tt-blue: #007bff;
+            --bg-gray: #f8f8f8;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'SF Pro Display', -apple-system, sans-serif; }
-        body { background-color: #fff; margin: 0; padding: 0; color: var(--tt-black); overflow-x: hidden; height: 100vh; width: 100vw; }
+        * { box-sizing: border-box; font-family: 'SF Pro Display', -apple-system, sans-serif; }
+        body { background-color: #fff; margin: 0; padding: 0; color: var(--tt-black); }
 
-        /* Header */
+        /* Header & Promo Bar */
         header { display: flex; align-items: center; padding: 12px 16px; border-bottom: 0.5px solid #ebebeb; gap: 8px; }
-        .tt-logo { width: 24px; height: 24px; }
-        .header-text { font-weight: 700; font-size: 18px; }
-
-        /* Content */
-        .container { padding: 16px; }
-        .input-box { border: 1px solid #e1e1e1; border-radius: 4px; padding: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; background: #fff; }
-        .input-box input { border: none; outline: none; width: 100%; font-size: 16px; color: var(--tt-black); }
-
-        /* Coins Grid (تم تعديلها لتظهر بصفين) */
-        .grid-coins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 120px; }
-        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 18px 4px; text-align: center; cursor: pointer; transition: 0.2s; background: #fff; }
-        .coin-card.selected { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); }
-
-        .gold-icon {
-            width: 16px; height: 16px; background: var(--tt-gold); border-radius: 50%;
-            display: inline-flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 10px; font-weight: bold; margin-right: 4px;
+        .promo-bar { 
+            background-color: #f1f1f2; padding: 10px 16px; font-size: 13px; 
+            display: flex; align-items: center; justify-content: space-between; font-weight: 500;
         }
-        .gold-icon::after { content: "d"; transform: scaleX(-1); display: inline-block; }
-        .price { color: var(--tt-text-gray); font-size: 13px; margin-top: 5px; }
 
-        /* Bottom Action Bar */
-        .action-bar { position: fixed; bottom: 0; width: 100%; padding: 16px; background: #fff; border-top: 1px solid #eee; z-index: 100; }
-        .buy-btn { background: var(--tt-red); color: #fff; border: none; width: 100%; padding: 14px; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; }
+        /* Main UI (Exactly like the image) */
+        .container { padding: 16px; }
+        .user-input-box {
+            background: var(--bg-gray); border-radius: 4px; padding: 12px;
+            display: flex; align-items: center; gap: 10px; margin-bottom: 25px;
+        }
+        .user-input-box input { border: none; background: transparent; outline: none; width: 100%; font-size: 16px; }
 
-        /* Centered Status Overlay (شاشة الصح الأخضر لم تُمس) */
-        #status-overlay {
-            display: none; position: fixed; inset: 0; background: #fff; z-index: 9999;
+        .section-title { font-weight: 700; font-size: 16px; margin-bottom: 15px; }
+        
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px; }
+        .card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 16px 4px; text-align: center; cursor: pointer; }
+        .card.selected { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); }
+        .coin-txt { font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+        .coin-icon { color: #ffac33; font-size: 14px; }
+        .price-txt { color: var(--tt-text-gray); font-size: 13px; margin-top: 4px; }
+
+        /* Bottom Bar */
+        .icons-row { position: fixed; bottom: 85px; width: 100%; display: flex; justify-content: center; gap: 10px; padding: 5px; background: #fff; }
+        .icons-row img { height: 16px; object-fit: contain; }
+        
+        .footer { position: fixed; bottom: 0; width: 100%; padding: 16px; background: #fff; border-top: 1px solid #eee; z-index: 100; }
+        .buy-btn { background: var(--tt-red); color: #fff; border: none; width: 100%; padding: 14px; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+        /* Modals */
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: flex-end; }
+        .modal { background: #fff; width: 100%; border-radius: 12px 12px 0 0; overflow: hidden; animation: slide 0.3s ease; }
+        @keyframes slide { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        .secure-tag { background: #eafbef; color: #25c059; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 14px; }
+        .modal-body { padding: 20px; }
+        
+        .pay-item { border: 2px solid var(--tt-blue); border-radius: 8px; padding: 16px; display: flex; align-items: center; justify-content: space-between; margin: 15px 0; }
+        .blue-check { width: 18px; height: 18px; border: 2px solid var(--tt-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .blue-check::after { content: ''; width: 10px; height: 10px; background: var(--tt-blue); border-radius: 50%; }
+
+        /* Success Screen (The one you liked - untouched) */
+        #success-screen { 
+            display: none; position: fixed; inset: 0; background: #fff; z-index: 2000; 
             flex-direction: column; align-items: center; justify-content: center; text-align: center;
         }
-        .loader { width: 55px; height: 55px; border: 5px solid #f3f3f3; border-top: 5px solid var(--tt-red); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .success-icon { width: 90px; height: 90px; background: #25c059; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 50px; margin-bottom: 25px;}
-
-        /* --- Modals --- */
-        .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: flex-end; }
-        .modal-sheet { background: white; width: 100%; border-radius: 12px 12px 0 0; animation: slideUp 0.3s ease; overflow: hidden; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-        /* Numpad */
-        .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: #d1d4d9; gap: 1px; }
-        .n-key { background: #fff; padding: 20px; text-align: center; font-size: 24px; cursor: pointer; }
-
-        /* --- Order Summary (تم تحديثه ليطابق الصورة الجديدة) --- */
-        .modal-sheet-inner { padding: 24px 20px; }
-
-        /* شريط الدفع الآمن المحدث */
-        .secure-payment-pro {
-            background-color: var(--tt-green-bar);
-            color: var(--tt-green-text);
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .secure-payment-pro svg { width: 16px; height: 16px; fill: var(--tt-green-text); }
-
-        .modal-title { font-size: 18px; font-weight: 700; margin: 0 0 20px 0; display: flex; justify-content: space-between; align-items: center;}
-        .close-modal { color: #ccc; cursor: pointer; font-size: 20px; }
-
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 15px; }
-        .summary-label { color: var(--tt-text-gray); }
-        .summary-value { font-weight: 600; color: #000; }
-
-        /* طريقة الدفع المحدثة في الملخص */
-        .payment-summary-box {
-            border: 1px solid #eee; border-radius: 8px; padding: 15px; margin: 15px 0; background: #fafafa;
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .visa-method { display: flex; align-items: center; gap: 10px; font-weight: 600; font-family: monospace; }
-        .visa-icon-img { height: 12px; } /* حجم أيقونة الفيزا الصغيرة */
-
+        .green-circle { width: 90px; height: 90px; background: #25c059; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 50px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
     <header>
-        <svg class="tt-logo" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
-        <div class="header-text">Recharge</div>
+        <svg width="24" height="24" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
+        <span style="font-weight:700; font-size:18px;">Get Coins</span>
     </header>
 
+    <div class="promo-bar">
+        <span>🇬🇧 Save up to 25% on TikTok coins</span>
+        <span style="color:var(--tt-red)">View benefits</span>
+    </div>
+
     <div class="container">
-        <div class="input-box">
-            <svg width="20" height="20" viewBox="0 0 448 512" style="fill:#555;"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
-            <input type="text" id="username" placeholder="Enter username">
+        <div class="user-input-box">
+            <svg width="18" height="18" fill="#8a8b91" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
+            <input type="text" id="user-field" placeholder="Enter username">
         </div>
 
-        <div style="font-weight:700; font-size:16px; margin-bottom:12px;">Recharge</div>
-        
-        <div class="coins-grid">
-            <div class="coin-card selected" onclick="sel(this, 30, '0.28')">
-                <div style="font-weight:700;"><span class="gold-icon"></span>30</div>
-                <div class="price">£0.28</div>
+        <div class="section-title">Recharge</div>
+        <div class="grid">
+            <div class="card selected" onclick="pick(this, 30, '0.28')">
+                <div class="coin-txt"><span class="coin-icon">🪙</span>30</div>
+                <div class="price-txt">£0.28</div>
             </div>
-            <div class="coin-card" onclick="sel(this, 350, '3.25')">
-                <div style="font-weight:700;"><span class="gold-icon"></span>350</div>
-                <div class="price">£3.25</div>
+            <div class="card" onclick="pick(this, 350, '3.25')">
+                <div class="coin-txt"><span class="coin-icon">🪙</span>350</div>
+                <div class="price-txt">£3.25</div>
             </div>
-            <div class="coin-card" onclick="sel(this, 700, '6.50')">
-                <div style="font-weight:700;"><span class="gold-icon"></span>700</div>
-                <div class="price">£6.50</div>
+            <div class="card" onclick="pick(this, 700, '6.50')">
+                <div class="coin-txt"><span class="coin-icon">🪙</span>700</div>
+                <div class="price-txt">£6.50</div>
             </div>
-            <div class="coin-card" onclick="sel(this, 1400, '12.99')">
-                <div style="font-weight:700;"><span class="gold-icon"></span>1400</div>
-                <div class="price">£12.99</div>
+            <div class="card" onclick="pick(this, 1400, '12.99')">
+                <div class="coin-txt"><span class="coin-icon">🪙</span>1400</div>
+                <div class="price-txt">£12.99</div>
             </div>
-            <div class="coin-card" onclick="sel(this, 3500, '32.50')">
-                <div style="font-weight:700;"><span class="gold-icon"></span>3500</div>
-                <div class="price">£32.50</div>
+            <div class="card" onclick="pick(this, 3500, '32.50')">
+                <div class="coin-txt"><span class="coin-icon">🪙</span>3500</div>
+                <div class="price-txt">£32.50</div>
             </div>
-            <div class="coin-card" onclick="openNumpad()">
-                <div style="font-weight:700; margin-top:8px; color: var(--tt-text-gray);">Custom</div>
-            </div>
+            <div class="card"><div class="coin-txt" style="color:#ccc">Custom</div></div>
         </div>
     </div>
 
-    <div class="action-bar">
-        <button class="buy-btn" id="footer-btn" onclick="openOrder()">Buy for £0.28</button>
+    <div class="icons-row">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/PayPal_logo_with_edition.svg">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg">
     </div>
 
-    <div id="order-modal" class="modal-bg">
-        <div class="modal-sheet">
-            <div class="secure-payment-pro">
-                <svg viewBox="0 0 448 512"><path d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"/></svg>
+    <div class="footer">
+        <button class="buy-btn" onclick="showSum()">
+            <svg width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M18,8H17V6A5,5,0,0,0,7,6V8H6a2,2,0,0,0-2,2V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V10A2,2,0,0,0,18,8ZM9,6a3,3,0,0,1,6,0V8H9ZM12,17a2,2,0,1,1,2-2A2,2,0,0,1,12,17Z"/></svg>
+            Buy for <span id="bt-prc">£0.28</span>
+        </button>
+    </div>
+
+    <div id="sum-modal" class="overlay">
+        <div class="modal">
+            <div class="secure-tag">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 448 512"><path d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"/></svg>
                 Secure payment
             </div>
-            
-            <div class="modal-sheet-inner">
-                <div class="modal-title"><span>Order summary</span> <span class="close-modal" onclick="closeModal()">✕</span></div>
-                
-                <div class="summary-row">
-                    <span class="summary-label">Account</span>
-                    <span id="sum-name" class="summary-value"></span>
+            <div class="modal-body">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                    <span style="font-weight:700; font-size:18px;">Order summary</span>
+                    <span onclick="closeSum()" style="color:#ccc">✕</span>
                 </div>
-                <div class="summary-row">
-                    <span id="sum-coins" class="summary-label"></span>
-                    <span id="sum-price" class="summary-value"></span>
+                <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                    <span style="color:var(--tt-text-gray)">Account</span><span id="s-user" style="font-weight:600"></span>
                 </div>
-                
-                <div class="payment-summary-box">
-                    <div class="visa-method">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa Icon" class="visa-icon-img">
-                        <span>**** **** **** 1234</span>
+                <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+                    <span id="s-coins" style="color:var(--tt-text-gray)"></span><span id="s-prc" style="font-weight:600"></span>
+                </div>
+
+                <div class="pay-item">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="font-size:20px;">Pay</span><span style="font-weight:600">Apple Pay</span>
                     </div>
-                    <span style="color:#ccc;">❯</span>
+                    <div class="blue-check"></div>
                 </div>
-                
-                <div class="summary-row" style="margin-top:20px; font-size:18px; border-top:1px solid #eee; padding-top:15px">
-                    <span style="font-weight:700">Total</span>
-                    <span id="sum-total" style="font-weight:800"></span>
+
+                <div style="display:flex; justify-content:space-between; border-top:1px solid #eee; padding-top:15px; font-size:18px; font-weight:800; margin-bottom:20px;">
+                    <span>Total</span><span id="s-total"></span>
                 </div>
-                
-                <button class="buy-btn" onclick="startPayment()">Pay <span id="pay-btn-amt">£0.28</span></button>
+                <button class="buy-btn" onclick="payNow()">Pay <span id="s-btn-prc"></span></button>
             </div>
         </div>
     </div>
 
-    <div id="status-overlay">
-        <div id="loader-box">
-            <div class="loader"></div>
-            <p style="margin-top:20px; font-weight:600; font-size:18px;">Processing payment...</p>
-        </div>
-        <div id="success-box" style="display:none; flex-direction:column; align-items:center;">
-            <div class="success-icon">✓</div>
-            <div style="font-size:24px; font-weight:800; margin-bottom:15px; color:#000;">Successful recharge!</div>
-            <p id="success-msg" style="color:var(--tt-text-gray); padding:0 30px; line-height:1.4;"></p>
-            <button class="buy-btn" style="width:200px; margin-top:20px;" onclick="location.reload()">Done</button>
-        </div>
-    </div>
-
-    <div id="custom-modal" class="modal-bg" onclick="this.style.display='none'">
-        <div class="modal-sheet" style="padding:0;" onclick="event.stopPropagation()">
-            <div style="padding:15px; text-align:center; font-weight:600; border-bottom:1px solid #eee;">Amount</div>
-            <div style="padding:30px; text-align:center; font-size:36px; font-weight:700;" id="numpad-display">0</div>
-            <div class="numpad-grid">
-                <div class="n-key" onclick="typeNum('1')">1</div><div class="n-key" onclick="typeNum('2')">2</div><div class="n-key" onclick="typeNum('3')">3</div>
-                <div class="n-key" onclick="typeNum('4')">4</div><div class="n-key" onclick="typeNum('5')">5</div><div class="n-key" onclick="typeNum('6')">6</div>
-                <div class="n-key" onclick="typeNum('7')">7</div><div class="n-key" onclick="typeNum('8')">8</div><div class="n-key" onclick="typeNum('9')">9</div>
-                <div class="n-key" style="background:#f8f8f8" onclick="typeNum('C')">C</div><div class="n-key" onclick="typeNum('0')">0</div>
-                <div class="n-key" style="background:var(--tt-red); color:#fff;" onclick="applyCustom()">Next</div>
-            </div>
-        </div>
+    <div id="success-screen">
+        <div class="green-circle">✓</div>
+        <div style="font-size:24px; font-weight:800; margin-bottom:10px;">Success!</div>
+        <p id="sc-msg" style="color:var(--tt-text-gray); padding:0 30px;"></p>
+        <p style="color:var(--tt-text-gray); font-size:13px; margin:15px 0 40px; padding:0 40px;">This operation has been completed. It will be processed within 24 hours!</p>
+        <button class="buy-btn" style="width:200px" onclick="location.reload()">Done</button>
     </div>
 
     <script>
-        let curC = 30, curP = "0.28", numIn = "";
-
-        function sel(el, amt, price) {
-            document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected'); curC = amt; curP = price;
-            document.getElementById('footer-btn').innerText = `Buy for £${price}`;
+        let cC = 30, cP = "0.28";
+        function pick(el, a, p) {
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected'); cC = a; cP = p;
+            document.getElementById('bt-prc').innerText = "£" + p;
         }
-
-        function openOrder() {
-            document.getElementById('sum-name').innerText = document.getElementById('username').value || "User";
-            document.getElementById('sum-coins').innerText = curC + " Coins";
-            document.getElementById('sum-price').innerText = "£" + curP;
-            document.getElementById('sum-total').innerText = "£" + curP;
-            document.getElementById('pay-btn-amt').innerText = "£" + curP;
-            document.getElementById('order-modal').style.display = 'flex';
+        function showSum() {
+            document.getElementById('s-user').innerText = document.getElementById('user-field').value || "User";
+            document.getElementById('s-coins').innerText = cC + " Coins";
+            document.getElementById('s-prc').innerText = "£" + cP;
+            document.getElementById('s-total').innerText = "£" + cP;
+            document.getElementById('s-btn-prc').innerText = "£" + cP;
+            document.getElementById('sum-modal').style.display = 'flex';
         }
-        function closeModal() { document.getElementById('order-modal').style.display = 'none'; }
-
-        function openNumpad() { numIn = ""; document.getElementById('numpad-display').innerText = "0"; document.getElementById('custom-modal').style.display = 'flex'; }
-        function typeNum(v) { if(v === 'C') numIn = ""; else if(numIn.length < 6) numIn += v; document.getElementById('numpad-display').innerText = numIn || "0"; }
-        function applyCustom() { if(!numIn || numIn === "0") return; curC = numIn; curP = (parseInt(numIn) * 0.0092).toFixed(2); document.getElementById('footer-btn').innerText = `Buy for £${curP}`; document.getElementById('custom-modal').style.display = 'none'; }
-
-        function startPayment() {
-            closeModal();
-            document.getElementById('status-overlay').style.display = 'flex';
-            setTimeout(() => {
-                document.getElementById('loader-box').style.display = 'none';
-                document.getElementById('success-box').style.display = 'flex';
-                document.getElementById('success-msg').innerText = `${curC} Coins sent to ${document.getElementById('username').value || "User"}`;
-            }, 3000);
+        function closeSum() { document.getElementById('sum-modal').style.display = 'none'; }
+        function payNow() {
+            closeSum();
+            document.getElementById('success-screen').style.display = 'flex';
+            document.getElementById('sc-msg').innerText = cC + " Coins sent to " + (document.getElementById('user-field').value || "User");
         }
     </script>
 </body>
