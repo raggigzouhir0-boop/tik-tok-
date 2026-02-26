@@ -11,241 +11,200 @@
             --tt-black: #161823;
             --tt-gray: #f1f1f2;
             --tt-text-gray: #8a8b91;
-            --tt-border-red: #ffcdd2; /* لون حدود خانة الاسم عند الخطأ أو التحديد */
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'SF Pro Display', -apple-system, sans-serif; }
-
         body { background-color: #fff; margin: 0; padding: 0; color: var(--tt-black); user-select: none; overflow-x: hidden; }
 
-        /* Header المحدث ليتطابق مع الصورة */
+        /* Header matching image */
         header {
             display: flex;
             align-items: center;
             padding: 12px 16px;
             border-bottom: 0.5px solid #ebebeb;
-            gap: 10px; /* مسافة بين الشعار والنص */
+            gap: 8px;
         }
-        .tt-logo-header {
-            width: 28px;
-            height: 28px;
-            background-color: var(--tt-black);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .header-recharge-text {
-            font-weight: 700;
-            font-size: 18px;
-            color: var(--tt-black);
-        }
+        .tt-logo-img { width: 24px; height: 24px; }
+        .header-text { font-weight: 700; font-size: 18px; }
 
-        /* User Profile Section with Input Box */
-        .profile-section {
-            padding: 18px 16px;
-        }
-
-        /* خانة إدخال اسم المستخدم الجديدة */
-        .username-input-container {
-            border: 1px solid #ddd;
+        /* User Input Section */
+        .profile-section { padding: 20px 16px; }
+        .username-box {
+            border: 1px solid #e1e1e1;
             border-radius: 4px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            transition: border-color 0.2s;
-        }
-        .username-input-container:focus-within {
-            border-color: var(--tt-red); /* تغيير اللون عند التحديد */
-            box-shadow: 0 0 0 1px var(--tt-border-red);
-        }
-        .username-input-container input {
-            border: none;
-            background: transparent;
-            font-size: 15px;
-            width: 100%;
-            outline: none;
-            color: var(--tt-black);
-        }
-        .username-input-container input::placeholder {
-            color: var(--tt-text-gray);
-        }
-
-        /* باقي التنسيقات (العملات، الأزرار، الخ) */
-        .balance-info { display: flex; align-items: center; gap: 4px; color: var(--tt-text-gray); font-size: 13px; margin-top: 10px; padding: 0 4px; }
-        
-        .grid-coins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 16px; margin-top: 20px; margin-bottom: 120px; }
-        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 16px 4px; text-align: center; cursor: pointer; transition: 0.2s; }
-        .coin-card.selected { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); }
-
-        .gold-coin {
-            width: 16px; height: 16px;
-            background-color: var(--tt-gold);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff; font-size: 10px; font-weight: bold;
-            box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
-            margin-right: 4px;
-        }
-        .gold-coin::after { content: "d"; transform: scaleX(-1); display: inline-block; }
-
-        .price { color: var(--tt-text-gray); font-size: 13px; margin-top: 4px; }
-
-        .bottom-bar { position: fixed; bottom: 0; width: 100%; padding: 16px; border-top: 1px solid #eee; background:#fff; z-index: 100; }
-        .buy-btn { background: var(--tt-red); color: #fff; border: none; width: 100%; padding: 14px; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; }
-
-        /* Payment Modal updated for Fake Visa */
-        #payment-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: flex-end; }
-        .modal-content { background: white; width: 100%; border-radius: 12px 12px 0 0; padding: 24px 20px; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-        /* تنسيق كارت الفيزا الوهمي */
-        .fake-visa-card {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            margin-top: 12px;
-            background-color: #f9f9f9;
-        }
-        .visa-info {
+            padding: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 500;
+            background: #fff;
+        }
+        .username-box input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
             color: var(--tt-black);
         }
-        .visa-icon {
-            font-size: 20px; /* حجم أيقونة الكارت */
+
+        /* Coins Grid */
+        .recharge-title { padding: 0 16px; font-weight: 700; font-size: 16px; margin-bottom: 8px; margin-top: 10px; }
+        .grid-coins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 16px; margin-bottom: 120px; }
+        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 18px 4px; text-align: center; cursor: pointer; }
+        .coin-card.selected { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); }
+
+        .gold-icon {
+            width: 16px; height: 16px;
+            background: var(--tt-gold);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center; justify-content: center;
+            color: #fff; font-size: 10px; font-weight: bold;
+            margin-right: 4px;
         }
-        .visa-number {
-            font-family: 'Courier New', monospace; /* خط يشبه خطوط الكروت */
-            letter-spacing: 1px;
+        .gold-icon::after { content: "d"; transform: scaleX(-1); display: inline-block; }
+
+        .price { color: var(--tt-text-gray); font-size: 13px; margin-top: 5px; }
+
+        /* Action Button */
+        .bottom-bar { position: fixed; bottom: 0; width: 100%; padding: 16px; background:#fff; border-top: 1px solid #eee; z-index: 100; }
+        .buy-btn { background: var(--tt-red); color: #fff; border: none; width: 100%; padding: 14px; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; }
+
+        /* Summary Modal */
+        #payment-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: flex-end; }
+        .modal-content { background: white; width: 100%; border-radius: 12px 12px 0 0; padding: 24px 20px; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .visa-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px; border: 1px solid #eee; border-radius: 8px; margin: 15px 0;
+            background: #fafafa;
         }
 
-        .pay-method { display: flex; justify-content: space-between; padding: 16px; border: 1px solid #eee; border-radius: 8px; margin-top: 12px; font-weight: 500; cursor: pointer; }
-
-        /* Processing & Success Screens */
-        #overlay { display: none; position: fixed; inset: 0; background: #fff; z-index: 3000; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .spinner { width: 45px; height: 45px; border: 3px solid #f3f3f3; border-top: 3px solid var(--tt-red); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        /* Full Screen Overlay for Processing/Success */
+        #status-overlay {
+            display: none; position: fixed; inset: 0; background: #fff; z-index: 5000;
+            flex-direction: column; align-items: center; justify-content: center; text-align: center;
+        }
+        .loader { width: 45px; height: 45px; border: 3px solid #f3f3f3; border-top: 3px solid var(--tt-red); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .success-check { width: 70px; height: 70px; background: #25c059; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 20px; }
+        .success-icon { width: 70px; height: 70px; background: #25c059; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="tt-logo-header">d</div> <div class="header-recharge-text">Recharge</div>
+        <svg class="tt-logo-img" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
+        <div class="header-text">Recharge</div>
     </header>
 
     <div class="profile-section">
-        <div class="username-input-container">
-            <input type="text" id="user-input" placeholder="Enter username">
-        </div>
-        <div class="balance-info">
-            <span class="gold-coin"></span> 0 | MXNGQVUU 📋
+        <div class="username-box">
+            <svg style="width:20px; height:20px;" viewBox="0 0 448 512"><path d="M448 209.91a210.06 210.06 0 0 1-122.77-39.25V349.38A162.55 162.55 0 1 1 185 188.31V278.2a74.62 74.62 0 1 0 52.23 71.18V0l88 0a121.18 121.18 0 0 0 1.86 22.32c7.87 33.35 27.34 62.39 55 81.29l10.4 7.2z"/></svg>
+            <input type="text" id="username" placeholder="Enter username">
         </div>
     </div>
 
-    <div style="padding: 0 16px; margin-top: 10px;">
-        <div style="font-weight: 700; font-size: 16px; margin-bottom: 12px;">Recharge</div>
-        <div style="color:var(--tt-red); font-size:12px; margin-bottom:15px;">Save around 25% with a lower third-party service fee. ⓘ</div>
-    </div>
+    <div class="recharge-title">Recharge</div>
+    <div style="color:var(--tt-red); font-size:12px; padding:0 16px; margin-bottom:15px;">Save around 25% with a lower third-party service fee. ⓘ</div>
 
     <div class="grid-coins">
-        <div class="coin-card selected" onclick="select(this, 30, '0.28')">
-            <div style="font-weight:700;"><span class="gold-coin"></span>30</div>
+        <div class="coin-card selected" onclick="sel(this, 30, '0.28')">
+            <div style="font-weight:700;"><span class="gold-icon"></span>30</div>
             <div class="price">£0.28</div>
         </div>
-        <div class="coin-card" onclick="select(this, 90, '0.85')">
-            <div style="font-weight:700;"><span class="gold-coin"></span>90</div>
-            <div class="price">£0.85</div>
-        </div>
-        <div class="coin-card" onclick="select(this, 150, '1.40')">
-            <div style="font-weight:700;"><span class="gold-coin"></span>150</div>
-            <div class="price">£1.40</div>
-        </div>
-        
-        <div class="coin-card" onclick="select(this, 350, '3.25')">
-            <div style="font-weight:700;"><span class="gold-coin"></span>350</div>
+        <div class="coin-card" onclick="sel(this, 350, '3.25')">
+            <div style="font-weight:700;"><span class="gold-icon"></span>350</div>
             <div class="price">£3.25</div>
         </div>
-        <div class="coin-card" onclick="select(this, 700, '6.50')">
-            <div style="font-weight:700;"><span class="gold-coin"></span>700</div>
+        <div class="coin-card" onclick="sel(this, 700, '6.50')">
+            <div style="font-weight:700;"><span class="gold-icon"></span>700</div>
             <div class="price">£6.50</div>
         </div>
-        <div class="coin-card" onclick="select(this, 1400, '12.99')">
-            <div style="font-weight:700;"><span class="gold-coin"></span>1400</div>
+        <div class="coin-card" onclick="sel(this, 1400, '12.99')">
+            <div style="font-weight:700;"><span class="gold-icon"></span>1400</div>
             <div class="price">£12.99</div>
         </div>
-
-        <div class="coin-card" onclick="openNum()" style="grid-column: span 3; margin-top: 10px;">
-            <div style="font-weight:700;">Custom</div>
+        <div class="coin-card" onclick="sel(this, 3500, '32.50')">
+            <div style="font-weight:700;"><span class="gold-icon"></span>3500</div>
+            <div class="price">£32.50</div>
+        </div>
+        <div class="coin-card">
+            <div style="font-weight:700; margin-top:10px;">Custom</div>
         </div>
     </div>
 
     <div class="bottom-bar">
-        <button class="buy-btn" id="bottom-btn" onclick="openPay()">Buy for £0.28</button>
+        <button class="buy-btn" id="pay-trigger" onclick="openOrder()">Buy for £0.28</button>
     </div>
 
     <div id="payment-modal">
         <div class="modal-content">
             <h3 style="margin:0 0 20px 0;">Order summary</h3>
             <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                <span>Account</span><span id="final-user" style="font-weight:600;"></span>
+                <span>Account</span><span id="sum-user" style="font-weight:600;"></span>
             </div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:25px;">
-                <span id="final-coins"></span><span id="final-price" style="font-weight:600;"></span>
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <span id="sum-coins"></span><span id="sum-price" style="font-weight:600;"></span>
             </div>
             
-            <div class="fake-visa-card">
-                <div class="visa-info">
-                    <span class="visa-icon">💳</span>
-                    <span class="visa-number">**** **** **** 1234</span>
+            <div style="color:var(--tt-text-gray); font-size:13px;">Payment method</div>
+            <div class="visa-row">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span>💳</span>
+                    <span style="font-family:monospace;">**** **** **** 1234</span>
                 </div>
-                <span style="color: var(--tt-text-gray);">❯</span>
+                <span style="color:#ccc;">❯</span>
             </div>
 
-            <div class="pay-method"><span>Apple Pay</span> <span>⚪</span></div>
-            <button class="buy-btn" onclick="go()">Pay</button>
+            <div style="display:flex; justify-content:space-between; padding:15px; border:1px solid #eee; border-radius:8px; margin-bottom:20px;">
+                <span>Apple Pay</span><span>⚪</span>
+            </div>
+
+            <button class="buy-btn" onclick="startProcess()">Pay</button>
+        </div>
+    </div>
+
+    <div id="status-overlay">
+        <div id="loading-box">
+            <div class="loader"></div>
+            <p style="margin-top:20px; font-weight:600;">Processing your payment...</p>
+        </div>
+        <div id="success-box" style="display:none;">
+            <div class="success-icon">✓</div>
+            <h2 style="margin:0">Successful recharge!</h2>
+            <p id="success-msg" style="color:var(--tt-text-gray); padding:10px 40px;"></p>
+            <button class="buy-btn" style="width:80%; margin-top:20px;" onclick="location.reload()">Done</button>
         </div>
     </div>
 
     <script>
-        let amt = 30, prc = "0.28", cur = "";
+        let cCoins = 30, cPrice = "0.28";
 
-        function select(e, a, p) {
+        function sel(el, amt, prc) {
             document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('selected'));
-            e.classList.add('selected');
-            amt = a; prc = p;
-            document.getElementById('bottom-btn').innerText = `Buy for £${p}`;
+            el.classList.add('selected');
+            cCoins = amt; cPrice = prc;
+            document.getElementById('pay-trigger').innerText = `Buy for £${prc}`;
         }
 
-        // ... (باقي الدوال تظل كما هي لخدمة المحاكاة) ...
-        function openNum() { alert("Custom amount feature placeholder"); } // تبسيط للمثال
-
-        function openPay() {
-            // جلب الاسم من خانة الإدخال الجديدة
-            const userInput = document.getElementById('user-input').value || "User";
-            document.getElementById('final-user').innerText = userInput;
-            document.getElementById('final-coins').innerText = amt + " Coins";
-            document.getElementById('final-price').innerText = "£" + prc;
+        function openOrder() {
+            const user = document.getElementById('username').value || "User";
+            document.getElementById('sum-user').innerText = user;
+            document.getElementById('sum-coins').innerText = cCoins + " Coins";
+            document.getElementById('sum-price').innerText = "£" + cPrice;
             document.getElementById('payment-modal').style.display = 'flex';
         }
 
-        function go() {
+        function startProcess() {
             document.getElementById('payment-modal').style.display = 'none';
-            // إضافة محاكاة للتحميل والنجاح هنا إذا أردت
-            alert("Simulating payment...");
-            location.reload(); 
+            document.getElementById('status-overlay').style.display = 'flex';
+            
+            setTimeout(() => {
+                document.getElementById('loading-box').style.display = 'none';
+                document.getElementById('success-box').style.display = 'block';
+                const user = document.getElementById('username').value || "User";
+                document.getElementById('success-msg').innerText = `${cCoins} Coins were sent to ${user}`;
+            }, 3000);
         }
     </script>
 </body>
