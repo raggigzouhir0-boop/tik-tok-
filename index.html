@@ -17,28 +17,22 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'SF Pro Display', -apple-system, sans-serif; }
         body { background-color: #fff; margin: 0; padding: 0; color: var(--tt-black); overflow-x: hidden; }
 
-        /* --- الرئيسية --- */
         header { display: flex; align-items: center; padding: 12px 16px; border-bottom: 0.5px solid #ebebeb; gap: 8px; }
         .header-title { font-weight: 700; font-size: 18px; }
 
         .container { padding: 16px; margin-bottom: 120px; }
-        .user-box {
-            background: var(--bg-light); border-radius: 4px; padding: 12px;
-            display: flex; align-items: center; gap: 10px; margin-bottom: 25px;
-        }
+        .user-box { background: var(--bg-light); border-radius: 4px; padding: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 25px; }
         .user-box input { border: none; background: transparent; outline: none; width: 100%; font-size: 16px; }
 
         .recharge-title { font-weight: 700; font-size: 16px; margin-bottom: 15px; }
         
         .coins-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 16px 4px; text-align: center; cursor: pointer; background: #fff; position: relative; }
-        .coin-card.active { border: 2px solid var(--tt-red); background: rgba(254, 44, 85, 0.05); }
+        .coin-card { border: 1px solid #f1f1f2; border-radius: 8px; padding: 16px 4px; text-align: center; cursor: pointer; background: #fff; transition: 0.2s; }
         
-        .tk-coin {
-            width: 16px; height: 16px; background: var(--tt-gold); border-radius: 50%;
-            display: inline-flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 10px; font-weight: bold; margin-right: 4px;
-        }
+        /* التحديد الأحمر الموحد لجميع البطاقات بما فيها Custom */
+        .coin-card.active { border: 2px solid var(--tt-red) !important; background: rgba(254, 44, 85, 0.05); }
+        
+        .tk-coin { width: 16px; height: 16px; background: var(--tt-gold); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: bold; margin-right: 4px; }
         .tk-coin::after { content: "d"; transform: scaleX(-1); display: inline-block; }
 
         .coin-n { font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center; }
@@ -49,29 +43,25 @@
         .payment-strip img { height: 16px; object-fit: contain; }
         .main-buy-btn { background: var(--tt-red); color: #fff; border: none; width: 100%; padding: 14px; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; }
 
-        /* --- لوحة الأرقام --- */
+        /* Numpad & Modals */
         #numpad-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1500; align-items: flex-end; }
-        .numpad-content { background: #fff; width: 100%; border-radius: 12px 12px 0 0; animation: slideUp 0.3s ease; }
+        .numpad-content { background: #fff; width: 100%; border-radius: 12px 12px 0 0; }
         .numpad-display { padding: 30px; text-align: center; font-size: 42px; font-weight: 700; border-bottom: 1px solid #eee; }
         .numpad-grid { display: grid; grid-template-columns: repeat(3, 1fr); background: #d1d4d9; gap: 1px; }
         .n-key { background: #fff; padding: 20px; text-align: center; font-size: 24px; cursor: pointer; }
 
-        /* --- ملخص الطلب --- */
         .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: flex-end; }
-        .modal { background: #fff; width: 100%; border-radius: 12px 12px 0 0; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .modal { background: #fff; width: 100%; border-radius: 12px 12px 0 0; }
         .secure-header { background: #eafbef; color: #25c059; padding: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 14px; }
         .modal-inner { padding: 20px; }
         .apple-pay-box { border: 2.5px solid var(--tt-blue); border-radius: 8px; padding: 16px; display: flex; align-items: center; justify-content: space-between; margin: 15px 0; }
         .blue-dot { width: 18px; height: 18px; border: 2px solid var(--tt-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .blue-dot::after { content: ''; width: 10px; height: 10px; background: var(--tt-blue); border-radius: 50%; }
 
-        /* --- صفحة التحميل --- */
         #loading-page { display: none; position: fixed; inset: 0; background: #fff; z-index: 4000; flex-direction: column; align-items: center; justify-content: center; }
         .spinner { width: 45px; height: 45px; border: 4px solid #f3f3f3; border-top: 4px solid var(--tt-red); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* --- صفحة النجاح --- */
         #success-page { display: none; position: fixed; inset: 0; background: #fff; z-index: 5000; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         .check-circle { width: 90px; height: 90px; background: #25c059; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 50px; margin-bottom: 20px; }
     </style>
@@ -128,7 +118,7 @@
         <button class="main-buy-btn" id="foot-btn" onclick="openSum()">Buy for £0.28</button>
     </div>
 
-    <div id="numpad-modal" onclick="closeNum()">
+    <div id="numpad-modal" onclick="document.getElementById('numpad-modal').style.display='none'">
         <div class="numpad-content" onclick="event.stopPropagation()">
             <div class="numpad-display" id="num-val">0</div>
             <div class="numpad-grid">
@@ -143,43 +133,23 @@
 
     <div id="sum-modal" class="overlay">
         <div class="modal">
-            <div class="secure-header">
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 448 512"><path d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"/></svg>
-                Secure payment
-            </div>
+            <div class="secure-header">Secure payment</div>
             <div class="modal-inner">
-                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                    <span style="font-weight:700; font-size:18px;">Order summary</span>
-                    <span onclick="closeSum()" style="color:#ccc; cursor:pointer">✕</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                    <span style="color:var(--tt-text-gray)">Account</span><span id="sm-u" style="font-weight:600"></span>
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                    <span id="sm-c" style="color:var(--tt-text-gray)"></span><span id="sm-p" style="font-weight:600"></span>
-                </div>
-                <div class="apple-pay-box">
-                    <div style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">Pay</span><span style="font-weight:600">Apple Pay</span></div>
-                    <div class="blue-dot"></div>
-                </div>
-                <div style="display:flex; justify-content:space-between; border-top:1px solid #eee; padding-top:15px; font-size:18px; font-weight:800; margin-bottom:20px;">
-                    <span>Total</span><span id="sm-tot"></span>
-                </div>
-                <button class="main-buy-btn" style="width:100%" onclick="startLoading()">Pay <span id="sm-btn-p"></span></button>
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px;"><span style="font-weight:700; font-size:18px;">Order summary</span><span onclick="closeSum()" style="color:#ccc">✕</span></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><span style="color:var(--tt-text-gray)">Account</span><span id="sm-u"></span></div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:12px;"><span id="sm-c"></span><span id="sm-p"></span></div>
+                <div class="apple-pay-box"><div><span style="font-size:20px;">Pay</span> Apple Pay</div><div class="blue-dot"></div></div>
+                <div style="display:flex; justify-content:space-between; border-top:1px solid #eee; padding-top:15px; font-weight:800;"><span>Total</span><span id="sm-tot"></span></div>
+                <button class="main-buy-btn" style="width:100%; margin-top:20px;" onclick="startLoading()">Pay <span id="sm-btn-p"></span></button>
             </div>
         </div>
     </div>
 
-    <div id="loading-page">
-        <div class="spinner"></div>
-        <div style="font-weight:600; font-size:18px;">Processing...</div>
-    </div>
-
+    <div id="loading-page"><div class="spinner"></div><div>Processing...</div></div>
     <div id="success-page">
         <div class="check-circle">✓</div>
-        <div style="font-size:24px; font-weight:800; margin-bottom:10px;">Success!</div>
-        <p id="sc-txt" style="color:var(--tt-text-gray); padding:0 30px;"></p>
-        <p style="color:var(--tt-text-gray); font-size:13px; margin:15px 0 40px; padding:0 40px;">This operation has been completed. It will be processed within 24 hours!</p>
+        <div style="font-size:24px; font-weight:800;">Success!</div>
+        <p id="sc-txt"></p>
         <button class="main-buy-btn" style="width:200px" onclick="location.reload()">Done</button>
     </div>
 
@@ -187,46 +157,38 @@
         let amt = 30, prc = "0.28", nIn = "";
 
         function sel(el, a, p) {
+            // إزالة التحديد عن كل المربعات بما فيها Custom
             document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active'); 
+            // إضافة التحديد للمربع المختار
+            el.classList.add('active');
             amt = a; prc = p;
             document.getElementById('foot-btn').innerText = "Buy for £" + p;
             
-            // إعادة تصفير شكل Custom إذا اخترنا مبللاً جاهزاً
+            // تصفير شكل Custom عند اختيار مبللاً آخر
             document.getElementById('custom-label').innerText = "Custom";
             document.getElementById('custom-label').style.color = "var(--tt-text-gray)";
             document.getElementById('custom-price').style.display = "none";
         }
 
         function openNum(el) {
+            // إزالة التحديد عن الكل وإضافته لـ Custom فوراً
             document.querySelectorAll('.coin-card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active'); // تفعيل اللون الأحمر عند الضغط
+            el.classList.add('active');
+            
             nIn = ""; 
             document.getElementById('num-val').innerText = "0"; 
             document.getElementById('numpad-modal').style.display = 'flex';
-        }
-
-        function closeNum() {
-            // إذا أغلق المستخدم اللوحة دون إدخال رقم، يعود التحديد لأول خيار (أو يبقى كما هو)
-            if(!nIn) {
-                // اختياري: يمكنك ترك التحديد على Custom أو إزالته
-            }
-            document.getElementById('numpad-modal').style.display = 'none';
         }
 
         function press(v) { if(v === 'C') nIn = ""; else if(nIn.length < 6) nIn += v; document.getElementById('num-val').innerText = nIn || "0"; }
 
         function doneNum() {
             if(!nIn || nIn === "0") return;
-            amt = nIn; 
-            prc = (parseInt(nIn) * 0.0093).toFixed(2);
-            
-            // تحديث شكل بطاقة Custom
+            amt = nIn; prc = (parseInt(nIn) * 0.0093).toFixed(2);
             document.getElementById('custom-label').innerHTML = `<span class="tk-coin"></span>${nIn}`;
             document.getElementById('custom-label').style.color = "var(--tt-black)";
             document.getElementById('custom-price').innerText = "£" + prc;
             document.getElementById('custom-price').style.display = "block";
-            
             document.getElementById('foot-btn').innerText = "Buy for £" + prc;
             document.getElementById('numpad-modal').style.display = 'none';
         }
@@ -240,7 +202,6 @@
             document.getElementById('sum-modal').style.display = 'flex';
         }
         function closeSum() { document.getElementById('sum-modal').style.display = 'none'; }
-
         function startLoading() {
             document.getElementById('sum-modal').style.display = 'none';
             document.getElementById('loading-page').style.display = 'flex';
