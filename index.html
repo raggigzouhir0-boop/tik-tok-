@@ -1,183 +1,323 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yassin & Zouhair Beauty</title>
+    <title>Y&Z Luxury | Yassin & Zouhair Global Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS التصميم --- */
+        /* --- GLOBAL STYLES --- */
         :root {
-            --gold: #d4af37;
-            --black: #0a0a0a;
-            --whatsapp-green: #25d366;
+            --primary-gold: #d4af37;
+            --dark-bg: #0b0d0e;
+            --card-bg: #161819;
+            --whatsapp-color: #25d366;
+            --accent-red: #ff4d4d; /* For sales tags like Temu */
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--black);
-            color: #fff;
-            margin: 0;
-            padding: 0;
+            background-color: var(--dark-bg);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* اللوغو وتنسيق الأسماء */
-        header {
-            padding: 40px 20px;
+        /* --- PROMO BANNER (Alibaba Style) --- */
+        .top-promo {
+            background: linear-gradient(90deg, #d4af37, #f2d06b);
+            color: #000;
             text-align: center;
-            background: linear-gradient(to bottom, #1a1a1a, #0a0a0a);
-            border-bottom: 2px solid var(--gold);
+            padding: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background-color: rgba(0, 0, 0, 0.95);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .logo h1 {
-            margin: 0;
-            font-size: 3rem;
-            color: var(--gold);
-            letter-spacing: 2px;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-gold);
+            letter-spacing: -1px;
         }
 
-        .logo span {
-            color: #fff;
-            font-size: 1.5rem;
-        }
+        .logo span { color: var(--white); }
 
-        .logo p {
-            margin: 5px 0 0;
-            font-size: 0.9rem;
-            letter-spacing: 5px;
-            color: #888;
-        }
-
-        /* الواجهة الرئيسية */
-        .hero {
-            padding: 60px 20px;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            text-align: center;
-        }
-
-        .hero h2 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        /* شبكة المنتجات */
-        .products-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            padding: 50px 10%;
-        }
-
-        .product-card {
-            background: #151515;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid #333;
-            transition: 0.3s ease;
-        }
-
-        .product-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-10px);
-        }
-
-        .product-card img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .product-card h3 {
-            margin: 15px 0 10px;
-            font-size: 1.4rem;
-        }
-
-        .price {
-            color: var(--gold);
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        /* زر الواتساب المباشر */
-        .buy-btn {
-            display: block;
-            background-color: var(--whatsapp-green);
-            color: #fff;
-            text-decoration: none;
+        /* --- NAVIGATION / CATEGORIES --- */
+        .nav-scroll {
+            display: flex;
+            overflow-x: auto;
+            background: #121415;
             padding: 12px;
-            border-radius: 8px;
-            font-weight: bold;
+            gap: 10px;
+            border-bottom: 1px solid #222;
+            scrollbar-width: none;
+        }
+
+        .nav-scroll::-webkit-scrollbar { display: none; }
+
+        .cat-btn {
+            background: #222;
+            border: 1px solid #444;
+            color: #ccc;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
             transition: 0.3s;
+        }
+
+        .cat-btn.active {
+            background: var(--primary-gold);
+            color: #000;
+            border-color: var(--primary-gold);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-banner {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #1a1a1a, #000);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary-gold);
+            margin-bottom: 20px;
         }
 
-        .buy-btn:hover {
-            background-color: #1ebe57;
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        .hero-text h2 {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
+        /* --- PRODUCT GRID --- */
+        .container { padding: 15px; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-gold);
+            padding-left: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        @media (min-width: 900px) {
+            .grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #222;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--primary-gold); }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent-red);
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 4px;
+            z-index: 10;
+        }
+
+        .card img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            background: #222;
+        }
+
+        .info { padding: 12px; }
+
+        .title {
+            font-size: 13px;
+            height: 38px;
+            overflow: hidden;
+            color: #eee;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+
+        .current-price { color: var(--primary-gold); font-size: 18px; font-weight: 800; }
+
+        .stars { color: #ffcc00; font-size: 11px; margin-bottom: 10px; }
+
+        .wa-btn {
+            background: var(--whatsapp-color);
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .wa-btn:hover { background: #1eb954; }
+
+        /* --- FOOTER --- */
         footer {
-            padding: 30px;
-            font-size: 0.8rem;
-            color: #555;
+            background: #000;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 50px;
             border-top: 1px solid #222;
         }
+
+        .footer-logo { color: var(--primary-gold); font-weight: 800; margin-bottom: 10px; }
+        .footer-info { font-size: 12px; color: #666; }
+
     </style>
 </head>
 <body>
 
+    <div class="top-promo">🔥 LIMITED TIME OFFER: FREE SHIPPING ON ALL ORDERS IN MOROCCO!</div>
+
     <header>
         <div class="logo">
-            <h1>ياسين <span>&</span> زهير</h1>
-            <p>Y&Z BEAUTY</p>
+            <h1>Y&Z <span>LUXURY</span></h1>
         </div>
     </header>
 
-    <section class="hero">
-        <h2>ارتقِ بجمالك للأفضل</h2>
-        <p>مجموعة فاخرة مختارة بعناية</p>
-    </section>
-
-    <div class="products-container">
-        
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=400&q=80" alt="عطر">
-            <h3>عطر العود الملكي</h3>
-            <p class="price">450 درهم</p>
-            <a href="https://wa.me/212600000000?text=السلام عليكم، أريد طلب: عطر العود الملكي" class="buy-btn">
-                شراء عبر واتساب مباشرة
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?auto=format&fit=crop&w=400&q=80" alt="كريم">
-            <h3>كريم تفتيح البشرة</h3>
-            <p class="price">290 درهم</p>
-            <a href="https://wa.me/212657822894?text=السلام عليكم، أريد طلب: كريم تفتيح البشرة" class="buy-btn">
-                شراء عبر واتساب مباشرة
-            </a>
-        </div>
-
-        <div class="product-card">
-            <img src="https://images.unsplash.com/photo-1527633546944-8232f9d3a6ad?auto=format&fit=crop&w=400&q=80" alt="زيت">
-            <h3>مجموعة زيوت الشعر</h3>
-            <p class="price">320 درهم</p>
-            <a href="https://wa.me/212657822894?text=السلام عليكم، أريد طلب: مجموعة زيوت الشعر" class="buy-btn">
-                شراء عبر واتساب مباشرة
-            </a>
-        </div>
-
+    <div class="nav-scroll">
+        <button class="cat-btn active">All Products</button>
+        <button class="cat-btn">Luxury Bags</button>
+        <button class="cat-btn">Grooming</button>
+        <button class="cat-btn">Sport Accessories</button>
+        <button class="cat-btn">Flash Sales</button>
     </div>
 
-    <footer style="text-align: center;">
-        <p>© 2026 Yassin & Zouhair Beauty. جميع الحقوق محفوظة.</p>
+    <section class="hero-banner">
+        <div class="hero-text">
+            <h2>UP TO 50% OFF</h2>
+            <p style="color: #888; font-size: 14px;">Premium Quality, Global Style</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="section-header">
+            <h3 style="text-transform: uppercase;">Trending Now</h3>
+        </div>
+
+        <div class="grid">
+            
+            <div class="card">
+                <div class="badge">HOT SALE</div>
+                <img src="https://via.placeholder.com/400?text=WEIXIER+Bag" alt="Bag">
+                <div class="info">
+                    <div class="title">WEIXIER Professional Luxury Leather Shoulder Bag</div>
+                    <div class="stars">★★★★★ (128 Reviews)</div>
+                    <div class="price-row">
+                        <span class="current-price">60 MAD</span>
+                    </div>
+                    <a href="https://wa.me/212657822894?text=I%20want%20to%20order:%20WEIXIER%20Leather%20Bag%20(60%20MAD)" class="wa-btn">ORDER VIA WHATSAPP</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="badge">BEST SELLER</div>
+                <img src="https://via.placeholder.com/400?text=Sport+Sunglasses" alt="Sunglasses">
+                <div class="info">
+                    <div class="title">Futuristic Sport Sunglasses - High Protection</div>
+                    <div class="stars">★★★★☆ (94 Reviews)</div>
+                    <div class="price-row">
+                        <span class="current-price">120 MAD</span>
+                    </div>
+                    <a href="https://wa.me/212657822894?text=I%20want%20to%20order:%20Sport%20Sunglasses%20(120%20MAD)" class="wa-btn">ORDER VIA WHATSAPP</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://via.placeholder.com/400?text=Hair+Trimmer" alt="Trimmer">
+                <div class="info">
+                    <div class="title">Transparent Pro Hair Trimmer - Digital LCD Display</div>
+                    <div class="stars">★★★★★ (210 Reviews)</div>
+                    <div class="price-row">
+                        <span class="current-price">50 MAD</span>
+                    </div>
+                    <a href="https://wa.me/212657822894?text=I%20want%20to%20order:%20Hair%20Trimmer%20(50%20MAD)" class="wa-btn">ORDER VIA WHATSAPP</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="badge">-20% OFF</div>
+                <img src="https://via.placeholder.com/400?text=Tactical+Pouch" alt="Pouch">
+                <div class="info">
+                    <div class="title">Tactical Utility Pouch - Multi-Gear Attachment</div>
+                    <div class="stars">★★★★☆ (56 Reviews)</div>
+                    <div class="price-row">
+                        <span class="current-price">30 MAD</span>
+                    </div>
+                    <a href="https://wa.me/212657822894?text=I%20want%20to%20order:%20Tactical%20Pouch%20(30%20MAD)" class="wa-btn">ORDER VIA WHATSAPP</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://via.placeholder.com/400?text=Shower+Gel" alt="Shower Gel">
+                <div class="info">
+                    <div class="title">Deep Cleansing Shower Gel 400ml with Massager</div>
+                    <div class="stars">★★★★★ (320 Reviews)</div>
+                    <div class="price-row">
+                        <span class="current-price">10 MAD</span>
+                    </div>
+                    <a href="https://wa.me/212657822894?text=I%20want%20to%20order:%20Shower%20Gel%20(10%20MAD)" class="wa-btn">ORDER VIA WHATSAPP</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">Y&Z LUXURY GLOBAL</div>
+        <p class="footer-info">Contact us: +212 657-822894</p>
+        <p class="footer-info">Berrechid, Morocco | Worldwide Shipping</p>
+        <div style="margin-top: 20px; color: #444; font-size: 10px;">© 2026 Yassin & Zouhair Beauty. All Rights Reserved.</div>
     </footer>
 
 </body>
