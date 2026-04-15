@@ -13,206 +13,101 @@
             --dark-bg: #0b0d0e;
             --card-bg: #161819;
             --whatsapp-color: #25d366;
-            --accent-red: #ff4d4d; /* For sales tags like Temu */
+            --accent-red: #ff4d4d;
             --white: #ffffff;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-        body {
-            background-color: var(--dark-bg);
-            color: var(--white);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+        body { background-color: var(--dark-bg); color: var(--white); line-height: 1.6; overflow-x: hidden; }
 
-        /* --- PROMO BANNER (Alibaba Style) --- */
         .top-promo {
             background: linear-gradient(90deg, #d4af37, #f2d06b);
-            color: #000;
-            text-align: center;
-            padding: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
+            color: #000; text-align: center; padding: 8px; font-size: 13px; font-weight: 600; text-transform: uppercase;
         }
 
-        /* --- HEADER --- */
         header {
-            background-color: rgba(0, 0, 0, 0.95);
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #333;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.95); padding: 20px; text-align: center;
+            border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000;
         }
 
-        .logo h1 {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--primary-gold);
-            letter-spacing: -1px;
-        }
-
+        .logo h1 { font-size: 24px; font-weight: 800; color: var(--primary-gold); letter-spacing: -1px; }
         .logo span { color: var(--white); }
 
-        /* --- NAVIGATION / CATEGORIES --- */
-        .nav-scroll {
+        /* --- PRODUCT SLIDER CSS (الجديد) --- */
+        .product-slider {
             display: flex;
             overflow-x: auto;
-            background: #121415;
-            padding: 12px;
-            gap: 10px;
-            border-bottom: 1px solid #222;
-            scrollbar-width: none;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; /* Firefox */
+            background: #222;
         }
 
+        .product-slider::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+        .product-slider img {
+            min-width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            scroll-snap-align: center;
+        }
+
+        /* --- LAYOUT --- */
+        .nav-scroll {
+            display: flex; overflow-x: auto; background: #121415; padding: 12px; gap: 10px;
+            border-bottom: 1px solid #222; scrollbar-width: none;
+        }
         .nav-scroll::-webkit-scrollbar { display: none; }
 
         .cat-btn {
-            background: #222;
-            border: 1px solid #444;
-            color: #ccc;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 13px;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: 0.3s;
+            background: #222; border: 1px solid #444; color: #ccc; padding: 8px 16px;
+            border-radius: 50px; font-size: 13px; white-space: nowrap; cursor: pointer;
         }
+        .cat-btn.active { background: var(--primary-gold); color: #000; border-color: var(--primary-gold); }
 
-        .cat-btn.active {
-            background: var(--primary-gold);
-            color: #000;
-            border-color: var(--primary-gold);
-        }
-
-        /* --- HERO SECTION --- */
         .hero-banner {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(45deg, #1a1a1a, #000);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            border-bottom: 2px solid var(--primary-gold);
-            margin-bottom: 20px;
+            width: 100%; height: 200px; background: linear-gradient(45deg, #1a1a1a, #000);
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            border-bottom: 2px solid var(--primary-gold); margin-bottom: 20px;
         }
-
         .hero-text h2 {
-            font-size: 28px;
-            font-weight: 800;
+            font-size: 28px; font-weight: 800;
             background: linear-gradient(to right, #fff, #d4af37);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* --- PRODUCT GRID --- */
         .container { padding: 15px; }
+        .section-header { margin-bottom: 15px; border-left: 4px solid var(--primary-gold); padding-left: 10px; }
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--primary-gold);
-            padding-left: 10px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        @media (min-width: 900px) {
-            .grid { grid-template-columns: repeat(4, 1fr); }
-        }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        @media (min-width: 900px) { .grid { grid-template-columns: repeat(4, 1fr); } }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid #222;
-            transition: transform 0.3s ease;
+            background: var(--card-bg); border-radius: 12px; overflow: hidden;
+            position: relative; border: 1px solid #222; transition: 0.3s ease;
         }
-
-        .card:hover { transform: translateY(-5px); border-color: var(--primary-gold); }
+        .card:hover { border-color: var(--primary-gold); }
 
         .badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: var(--accent-red);
-            color: #fff;
-            padding: 4px 8px;
-            font-size: 10px;
-            font-weight: bold;
-            border-radius: 4px;
-            z-index: 10;
-        }
-
-        .card img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            background: #222;
+            position: absolute; top: 10px; left: 10px; background: var(--accent-red);
+            color: #fff; padding: 4px 8px; font-size: 10px; font-weight: bold; border-radius: 4px; z-index: 10;
         }
 
         .info { padding: 12px; }
-
-        .title {
-            font-size: 13px;
-            height: 38px;
-            overflow: hidden;
-            color: #eee;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
+        .title { font-size: 13px; height: 38px; overflow: hidden; color: #eee; margin-bottom: 8px; font-weight: 500; }
         .price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
-
         .current-price { color: var(--primary-gold); font-size: 18px; font-weight: 800; }
-
         .stars { color: #ffcc00; font-size: 11px; margin-bottom: 10px; }
 
         .wa-btn {
-            background: var(--whatsapp-color);
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 14px;
-            gap: 8px;
-            transition: 0.3s;
+            background: var(--whatsapp-color); color: #fff; text-decoration: none;
+            display: flex; align-items: center; justify-content: center; padding: 10px;
+            border-radius: 8px; font-weight: 700; font-size: 14px; gap: 8px;
         }
 
-        .wa-btn:hover { background: #1eb954; }
-
-        /* --- FOOTER --- */
-        footer {
-            background: #000;
-            padding: 40px 20px;
-            text-align: center;
-            margin-top: 50px;
-            border-top: 1px solid #222;
-        }
-
+        footer { background: #000; padding: 40px 20px; text-align: center; border-top: 1px solid #222; margin-top: 50px; }
         .footer-logo { color: var(--primary-gold); font-weight: 800; margin-bottom: 10px; }
         .footer-info { font-size: 12px; color: #666; }
-
     </style>
 </head>
 <body>
@@ -220,16 +115,13 @@
     <div class="top-promo">🔥 LIMITED TIME OFFER: FREE SHIPPING ON ALL ORDERS IN MOROCCO!</div>
 
     <header>
-        <div class="logo">
-            <h1>Y&Z <span>LUXURY</span></h1>
-        </div>
+        <div class="logo"><h1>Y&Z <span>LUXURY</span></h1></div>
     </header>
 
     <div class="nav-scroll">
         <button class="cat-btn active">All Products</button>
         <button class="cat-btn">Luxury Bags</button>
         <button class="cat-btn">Grooming</button>
-        <button class="cat-btn">Sport Accessories</button>
         <button class="cat-btn">Flash Sales</button>
     </div>
 
@@ -241,72 +133,66 @@
     </section>
 
     <div class="container">
-        <div class="section-header">
-            <h3 style="text-transform: uppercase;">Trending Now</h3>
-        </div>
+        <div class="section-header"><h3>Trending Now</h3></div>
 
         <div class="grid">
             
             <div class="card">
-                <div class="badge">HOT SALE</div>
-                <img src="https://via.placeholder.com/400?text=WEIXIER+Bag" alt="Bag">
+                <div class="badge">SWIPE FOR MORE</div>
+                <div class="product-slider">
+                    <img src="IMG_9917.jpeg">
+                    <img src="IMG_9918.jpeg">
+                    <img src="IMG_9919.jpeg">
+                    <img src="IMG_9920.jpeg">
+                </div>
                 <div class="info">
                     <div class="title">WEIXIER Professional Luxury Leather Shoulder Bag</div>
                     <div class="stars">★★★★★ (128 Reviews)</div>
-                    <div class="price-row">
-                        <span class="current-price">60 MAD</span>
-                    </div>
-                    <a href="https://wa.me/212657822894?text=I%20want%20to%20order:%20WEIXIER%20Leather%20Bag%20(60%20MAD)" class="wa-btn">ORDER VIA WHATSAPP</a>
+                    <div class="price-row"><span class="current-price">60 MAD</span></div>
+                    <a href="https://wa.me/212657822894?text=Order: WEIXIER Bag" class="wa-btn">ORDER VIA WHATSAPP</a>
                 </div>
             </div>
 
             <div class="card">
-                <div class="badge">BEST SELLER</div>
-                <img src="https://via.placeholder.com/400?text=Sport+Sunglasses" alt="Sunglasses">
+                <div class="badge">NEW STYLE</div>
+                <div class="product-slider">
+                    <img src="IMG_9924.jpeg">
+                    <img src="IMG_9925.jpeg">
+                    <img src="IMG_9926.jpeg">
+                </div>
                 <div class="info">
                     <div class="title">Futuristic Sport Sunglasses - High Protection</div>
                     <div class="stars">★★★★☆ (94 Reviews)</div>
-                    <div class="price-row">
-                        <span class="current-price">120 MAD</span>
-                    </div>
-                    <a href="https://wa.me/212657822894?text=I%20want%20to%20order:%20Sport%20Sunglasses%20(120%20MAD)" class="wa-btn">ORDER VIA WHATSAPP</a>
+                    <div class="price-row"><span class="current-price">120 MAD</span></div>
+                    <a href="https://wa.me/212657822894?text=Order: Sunglasses" class="wa-btn">ORDER VIA WHATSAPP</a>
                 </div>
             </div>
 
             <div class="card">
-                <img src="https://via.placeholder.com/400?text=Hair+Trimmer" alt="Trimmer">
+                <div class="badge">HOT SALE</div>
+                <div class="product-slider">
+                    <img src="IMG_9921.jpeg">
+                    <img src="IMG_9930.jpeg">
+                    <img src="IMG_9931.jpeg">
+                </div>
                 <div class="info">
-                    <div class="title">Transparent Pro Hair Trimmer - Digital LCD Display</div>
+                    <div class="title">Transparent Pro Hair Trimmer - Digital LCD</div>
                     <div class="stars">★★★★★ (210 Reviews)</div>
-                    <div class="price-row">
-                        <span class="current-price">50 MAD</span>
-                    </div>
-                    <a href="https://wa.me/212657822894?text=I%20want%20to%20order:%20Hair%20Trimmer%20(50%20MAD)" class="wa-btn">ORDER VIA WHATSAPP</a>
+                    <div class="price-row"><span class="current-price">50 MAD</span></div>
+                    <a href="https://wa.me/212657822894?text=Order: Hair Trimmer" class="wa-btn">ORDER VIA WHATSAPP</a>
                 </div>
             </div>
 
             <div class="card">
-                <div class="badge">-20% OFF</div>
-                <img src="https://via.placeholder.com/400?text=Tactical+Pouch" alt="Pouch">
-                <div class="info">
-                    <div class="title">Tactical Utility Pouch - Multi-Gear Attachment</div>
-                    <div class="stars">★★★★☆ (56 Reviews)</div>
-                    <div class="price-row">
-                        <span class="current-price">30 MAD</span>
-                    </div>
-                    <a href="https://wa.me/212657822894?text=I%20want%20to%20order:%20Tactical%20Pouch%20(30%20MAD)" class="wa-btn">ORDER VIA WHATSAPP</a>
+                <div class="product-slider">
+                    <img src="IMG_9922.jpeg">
+                    <img src="IMG_9923.jpeg">
                 </div>
-            </div>
-
-            <div class="card">
-                <img src="https://via.placeholder.com/400?text=Shower+Gel" alt="Shower Gel">
                 <div class="info">
                     <div class="title">Deep Cleansing Shower Gel 400ml with Massager</div>
                     <div class="stars">★★★★★ (320 Reviews)</div>
-                    <div class="price-row">
-                        <span class="current-price">10 MAD</span>
-                    </div>
-                    <a href="https://wa.me/212657822894?text=I%20want%20to%20order:%20Shower%20Gel%20(10%20MAD)" class="wa-btn">ORDER VIA WHATSAPP</a>
+                    <div class="price-row"><span class="current-price">10 MAD</span></div>
+                    <a href="https://wa.me/212657822894?text=Order: Shower Gel" class="wa-btn">ORDER VIA WHATSAPP</a>
                 </div>
             </div>
 
@@ -317,7 +203,7 @@
         <div class="footer-logo">Y&Z LUXURY GLOBAL</div>
         <p class="footer-info">Contact us: +212 657-822894</p>
         <p class="footer-info">Berrechid, Morocco | Worldwide Shipping</p>
-        <div style="margin-top: 20px; color: #444; font-size: 10px;">© 2026 Yassin & Zouhair Beauty. All Rights Reserved.</div>
+        <div style="margin-top: 20px; color: #444; font-size: 10px;">© 2026 Y&Z Luxury. All Rights Reserved.</div>
     </footer>
 
 </body>
